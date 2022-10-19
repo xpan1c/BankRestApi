@@ -1,10 +1,13 @@
 package com.ironhack.bankApi.models;
 
+import com.ironhack.bankApi.models.enums.Status;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.time.ZoneId;
 
 @Entity
 @Table(name = "accounts")
@@ -14,12 +17,10 @@ public abstract class Account {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-
-
     @Transient
-    @Setter
     private  Money balance;
+    @Setter
+    private int secretKey;
     @ManyToOne
     @Setter
     private AccountHolder accountHolder;
@@ -28,21 +29,32 @@ public abstract class Account {
     private AccountHolder secondaryOwner;
     @Setter
     private BigDecimal penaltyFee;
+    @Setter
+    private LocalDate creationDate;
+    @Setter
+    private Status status;
 
     public Account() {
         setPenaltyFee(BigDecimal.valueOf(40.00));
+        setCreationDate(LocalDate.now(ZoneId.of("Europe/Paris")));
+        setStatus(Status.ACTIVE);
     }
 
-    public Account(BigDecimal balance, AccountHolder accountHolder, AccountHolder secondaryOwner, BigDecimal penaltyFee) {
+
+    public Account(BigDecimal balance, int secretKey, AccountHolder accountHolder, AccountHolder secondaryOwner, BigDecimal penaltyFee) {
         setBalance(balance);
+        setSecretKey(secretKey);
         setAccountHolder(accountHolder);
         setSecondaryOwner(secondaryOwner);
         setPenaltyFee(penaltyFee);
+        setCreationDate(LocalDate.now(ZoneId.of("Europe/Paris")));
+        setStatus(Status.ACTIVE);
     }
 
     public void setBalance(BigDecimal balance) {
         this.balance = new Money(balance);
     }
+
     public void decreaseBalance(BigDecimal decrease){
         balance.decreaseAmount(decrease);
     }

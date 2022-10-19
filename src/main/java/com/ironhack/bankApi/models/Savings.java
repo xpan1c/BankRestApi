@@ -7,11 +7,16 @@ import lombok.Setter;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.List;
+
 @Entity
 @Getter
 public class Savings extends StudentCheckingAccount{
     private BigDecimal minimumBalance;
     private BigDecimal interesRate;
+    private
 
     public Savings() {
         setMinimumBalance(BigDecimal.valueOf(1000.00));
@@ -38,7 +43,6 @@ public class Savings extends StudentCheckingAccount{
         }else {
             throw new IllegalArgumentException("Interes rate must be between 0.0025 and 0.5");
         }
-
     }
 
     @Override
@@ -47,5 +51,12 @@ public class Savings extends StudentCheckingAccount{
         if(minimumBalance.compareTo(super.getBalance().getAmount().subtract(decrease)) >= 0){
             super.decreaseBalance(getPenaltyFee());
         }
+    }
+    public void addInterest(){
+        LocalDate localDate = LocalDate.now(ZoneId.of("Europe/Paris"));
+        if(localDate.isAfter(super.getCreationDate().plusYears(1))){
+            super.increaseBalance(super.getBalance().getAmount().multiply(interesRate));
+        }
+
     }
 }
