@@ -14,7 +14,7 @@ public class CreditCard extends Account{
     private BigDecimal interesRate;
 
     public CreditCard() {
-        setCreditLimit(BigDecimal.valueOf(100));
+        setCreditLimit(BigDecimal.valueOf(100.00));
         setInteresRate(BigDecimal.valueOf(0.2));
     }
 
@@ -24,7 +24,7 @@ public class CreditCard extends Account{
     }
 
     public void setCreditLimit(BigDecimal creditLimit) {
-        if( creditLimit.compareTo(BigDecimal.valueOf(100)) >= 0 & creditLimit.compareTo(BigDecimal.valueOf(100000)) <= 0) {
+        if( creditLimit.compareTo(BigDecimal.valueOf(100.00)) >= 0 & creditLimit.compareTo(BigDecimal.valueOf(100000.00)) <= 0) {
             this.creditLimit = creditLimit;
         }else {
             throw new IllegalArgumentException("Credit limit must be between 100 and 100000");

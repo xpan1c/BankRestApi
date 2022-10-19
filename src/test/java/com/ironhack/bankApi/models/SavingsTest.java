@@ -12,13 +12,21 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 public class SavingsTest {
-    Savings savings = new Savings();
+    Savings savings;
     @BeforeEach
+    void setUp(){
+        savings = new Savings();
+    }
+    @Test
+    @DisplayName("Check default penalty")
+    void penaltyDefault_OK(){
+        assertEquals(BigDecimal.valueOf(40.00),savings.getPenaltyFee());
+    }
     @Test
     @DisplayName("Check default saving interes rate and minimum balance")
     void savingsDefault_OK(){
         assertEquals(BigDecimal.valueOf(0.0025),savings.getInteresRate());
-        assertEquals(BigDecimal.valueOf(1000),savings.getMinimumBalance());
+        assertEquals(BigDecimal.valueOf(1000.00),savings.getMinimumBalance());
     }
     @Test
     @DisplayName("Check if interes rate limits are ok")
@@ -36,5 +44,12 @@ public class SavingsTest {
         savings.setMinimumBalance(BigDecimal.valueOf(101));
         assertEquals(BigDecimal.valueOf(101),savings.getMinimumBalance());
         assertThrows(IllegalArgumentException.class,() ->savings.setMinimumBalance(BigDecimal.valueOf(99)));
+    }
+    @Test
+    @DisplayName("check if penalty applies when balance is less than minimum balance")
+    void penaltyApplies_OK(){
+        savings.setBalance(BigDecimal.valueOf(1020.00));
+        savings.decreaseBalance(BigDecimal.valueOf(25.00));
+        assertEquals(BigDecimal.valueOf(955.00).setScale(2),savings.getBalance().getAmount());
     }
 }

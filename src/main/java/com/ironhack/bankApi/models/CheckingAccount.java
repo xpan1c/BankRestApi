@@ -1,8 +1,6 @@
 package com.ironhack.bankApi.models;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.Entity;
@@ -10,9 +8,24 @@ import java.math.BigDecimal;
 @Entity
 @Getter
 @Setter
-@NoArgsConstructor
-@AllArgsConstructor
 public class CheckingAccount extends StudentCheckingAccount{
     private BigDecimal minimumBalance;
-    private BigDecimal montlyMantainanceFee;
+    private BigDecimal monthlyMaintenanceFee;
+
+    public CheckingAccount() {
+        setMinimumBalance(BigDecimal.valueOf(250.00));
+        setMonthlyMaintenanceFee(BigDecimal.valueOf(12.00));
+    }
+
+    public void setMinimumBalance(BigDecimal minimumBalance) {
+        this.minimumBalance = minimumBalance;
+    }
+
+    @Override
+    public void decreaseBalance(BigDecimal decrease) {
+        super.decreaseBalance(decrease);
+        if(minimumBalance.compareTo(super.getBalance().getAmount().subtract(decrease)) >= 0){
+            super.decreaseBalance(getPenaltyFee());
+        }
+    }
 }
