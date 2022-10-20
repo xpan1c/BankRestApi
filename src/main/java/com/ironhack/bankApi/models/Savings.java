@@ -13,10 +13,9 @@ import java.util.List;
 
 @Entity
 @Getter
-public class Savings extends StudentCheckingAccount{
+public class Savings extends Account{
     private BigDecimal minimumBalance;
     private BigDecimal interesRate;
-    private
 
     public Savings() {
         setMinimumBalance(BigDecimal.valueOf(1000.00));

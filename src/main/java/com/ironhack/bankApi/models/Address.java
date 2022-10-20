@@ -16,6 +16,6 @@ import javax.validation.constraints.NotEmpty;
 public class Address {
     private String street;
     private int number;
-    private int postalCode;
+    private String postalCode;
     private String city;
 }

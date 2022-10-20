@@ -28,6 +28,14 @@ public class AccountHolderDTO {
     private Address primaryAddress;
     private Address mailingAddress;
 
+    public AccountHolderDTO(String username, String password, String name, LocalDate dateOfBirth, Address primaryAddress) {
+        this.username = username;
+        this.password = password;
+        this.name = name;
+        this.dateOfBirth = dateOfBirth;
+        this.primaryAddress = primaryAddress;
+    }
+
     public AccountHolder toAccountHolder() {
         AccountHolder holder = new AccountHolder();
         holder.setUsername(username);

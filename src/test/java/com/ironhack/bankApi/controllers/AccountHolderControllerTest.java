@@ -44,11 +44,12 @@ public class AccountHolderControllerTest {
     @Test
     @DisplayName("Check if Account Holder is created correctly")
     void post_AccountHolder_isCreated() throws Exception {
-        AccountHolderDTO accountHolder = new AccountHolderDTO("","12345", "Juan Pablo", LocalDate.of(1990,10,10),new Address(), new Address());
+        Address primaryAddress = new Address("Calle falsa", 123, "08211","Cuenca");
+        AccountHolderDTO accountHolder = new AccountHolderDTO("abc","12345", "Juan Pablo", LocalDate.of(1990,10,10),primaryAddress);
         String body = objectMapper.writeValueAsString(accountHolder);
         System.err.println(body);
 
-        MvcResult mvcResult = mockMvc.perform(post("/newAccountHolder").content(body).contentType(MediaType.APPLICATION_JSON)).andExpect(status().isCreated()).andReturn();
+        MvcResult mvcResult = mockMvc.perform(post("/api/newAccountHolder").content(body).contentType(MediaType.APPLICATION_JSON)).andExpect(status().isCreated()).andReturn();
         assertTrue(accountHolderRepository.findById(1L).isPresent());
     }
 }

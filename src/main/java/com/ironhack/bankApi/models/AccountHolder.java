@@ -1,6 +1,5 @@
 package com.ironhack.bankApi.models;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -13,7 +12,7 @@ import java.util.List;
 @Getter
 @Setter
 @NoArgsConstructor
-public class AccountHolder extends User{
+public class AccountHolder extends User {
     private LocalDate dateOfBirth;
     @Embedded
     private Address primaryAddress;
@@ -25,7 +24,7 @@ public class AccountHolder extends User{
             @AttributeOverride(name = "city", column = @Column(name = "mailing_city"))
     })
     private Address mailingAddress;
-    @OneToMany(mappedBy = "accountHolder")
+    @OneToMany(mappedBy = "primaryOwner")
     @JsonIgnore
     private List<Account> mainAccountList;
     @OneToMany(mappedBy = "secondaryOwner")
@@ -43,12 +42,5 @@ public class AccountHolder extends User{
         setDateOfBirth(dateOfBirth);
         setPrimaryAddress(primaryAddress);
         setMailingAddress(mailingAddress);
-    }
-
-    public AccountHolder(Long userId, String username, String password, String name, List<Role> roles, LocalDate dateOfBirth, Address primaryAddress, Address mailingAddress) {
-        super(userId, username, password, name, roles);
-        this.dateOfBirth = dateOfBirth;
-        this.primaryAddress = primaryAddress;
-        this.mailingAddress = mailingAddress;
     }
 }

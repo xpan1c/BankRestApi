@@ -21,11 +21,13 @@ public abstract class Account {
     private  Money balance;
     @Setter
     private int secretKey;
-    @ManyToOne
+    @ManyToOne//(cascade = CascadeType.ALL)
+    //@JoinColumn(name = "primary_id")
     @Setter
-    private AccountHolder accountHolder;
+    private AccountHolder primaryOwner;
     @Setter
-    @ManyToOne
+    @ManyToOne//(cascade = CascadeType.ALL)
+    //@JoinColumn(name = "secondary_id")
     private AccountHolder secondaryOwner;
     @Setter
     private BigDecimal penaltyFee;
@@ -41,10 +43,10 @@ public abstract class Account {
     }
 
 
-    public Account(BigDecimal balance, int secretKey, AccountHolder accountHolder, AccountHolder secondaryOwner, BigDecimal penaltyFee) {
+    public Account(BigDecimal balance, int secretKey, AccountHolder primaryOwner, AccountHolder secondaryOwner, BigDecimal penaltyFee) {
         setBalance(balance);
         setSecretKey(secretKey);
-        setAccountHolder(accountHolder);
+        setPrimaryOwner(primaryOwner);
         setSecondaryOwner(secondaryOwner);
         setPenaltyFee(penaltyFee);
         setCreationDate(LocalDate.now(ZoneId.of("Europe/Paris")));

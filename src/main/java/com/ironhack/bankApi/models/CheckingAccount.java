@@ -8,7 +8,7 @@ import java.math.BigDecimal;
 @Entity
 @Getter
 @Setter
-public class CheckingAccount extends StudentCheckingAccount{
+public class CheckingAccount extends Account{
     private BigDecimal minimumBalance;
     private BigDecimal monthlyMaintenanceFee;
 

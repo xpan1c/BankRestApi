@@ -8,10 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
@@ -20,9 +17,14 @@ public class AccountHolderController implements AccountHolderControllerInterface
     @Autowired
     AccountHolderServiceInterface accountHolderService;
 
-    @PostMapping("/newAccountHolder")
+    @PostMapping("/api/newAccountHolder")
+    @ResponseStatus(HttpStatus.CREATED)
     public AccountHolder addAccountHolder(@Valid @RequestBody  AccountHolderDTO accountHolderDTO) {
         return accountHolderService.addAccountHolder(accountHolderDTO.toAccountHolder());
     }
+    //@GetMapping("/accountHolder/getAccounts")
+    //public getAccountsByAcountHolder(){
+
+    //}
 
 }
