@@ -1,6 +1,8 @@
 package com.ironhack.bankApi.services;
 
 import com.ironhack.bankApi.controllers.DTOs.AccountDTO;
+import com.ironhack.bankApi.controllers.DTOs.CreditCardDTO;
+import com.ironhack.bankApi.controllers.DTOs.SavingsDTO;
 import com.ironhack.bankApi.models.*;
 import com.ironhack.bankApi.repositories.*;
 import com.ironhack.bankApi.services.interfaces.AdminServiceInterface;
@@ -46,11 +48,25 @@ public class AdminService implements AdminServiceInterface {
         }
     }
 
-    public CreditCard addCreditCard(CreditCard creditCard) {
+    public CreditCard addCreditCard(CreditCardDTO creditCardDTO) {
+        AccountHolder primaryOwner = accountHolderRepository.findById(creditCardDTO.getPrimaryOwner()).orElseThrow(()->
+                new ResponseStatusException(HttpStatus.NOT_FOUND));
+        CreditCard creditCard = creditCardDTO.toCreditCard();
+        creditCard.setPrimaryOwner(primaryOwner);
+        if(creditCardDTO.getSecondaryOwner() != null) {
+            creditCard.setSecondaryOwner(accountHolderRepository.findById(creditCardDTO.getSecondaryOwner()).get());
+        }
         return accountRepository.save(creditCard);
     }
 
-    public Savings addCreditCard(Savings savings) {
+    public Savings addCreditCard(SavingsDTO savingsDTO) {
+        AccountHolder primaryOwner = accountHolderRepository.findById(savingsDTO.getPrimaryOwner()).orElseThrow(()->
+                new ResponseStatusException(HttpStatus.NOT_FOUND));
+        Savings savings = savingsDTO.toSavings();
+        savings.setPrimaryOwner(primaryOwner);
+        if(savingsDTO.getSecondaryOwner() != null) {
+            savings.setSecondaryOwner(accountHolderRepository.findById(savingsDTO.getSecondaryOwner()).get());
+        }
         return accountRepository.save(savings);
     }
 

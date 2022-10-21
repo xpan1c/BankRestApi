@@ -17,17 +17,17 @@ public abstract class Account {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Transient
+    @Embedded
     private  Money balance;
     @Setter
     private int secretKey;
     @ManyToOne//(cascade = CascadeType.ALL)
-    //@JoinColumn(name = "primary_id")
+    @JoinColumn(name = "primary_id")
     @Setter
     private AccountHolder primaryOwner;
     @Setter
     @ManyToOne//(cascade = CascadeType.ALL)
-    //@JoinColumn(name = "secondary_id")
+    @JoinColumn(name = "secondary_id")
     private AccountHolder secondaryOwner;
     private BigDecimal penaltyFee;
     @Setter
@@ -64,6 +64,7 @@ public abstract class Account {
         setCreationDate(LocalDate.now(ZoneId.of("Europe/Paris")));
         setStatus(Status.ACTIVE);
     }
+
 
     public void setPenaltyFee(BigDecimal penaltyFee) {
         if(penaltyFee == null) {

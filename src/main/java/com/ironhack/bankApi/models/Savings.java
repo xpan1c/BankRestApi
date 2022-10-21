@@ -6,12 +6,14 @@ import lombok.Setter;
 
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
+import javax.persistence.PrimaryKeyJoinColumn;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.List;
 
 @Entity
+//@PrimaryKeyJoinColumn(name = "sId")
 @Getter
 public class Savings extends Account{
     private BigDecimal minimumBalance;

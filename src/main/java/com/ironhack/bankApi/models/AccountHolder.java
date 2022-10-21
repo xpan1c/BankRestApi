@@ -43,4 +43,5 @@ public class AccountHolder extends User {
         setPrimaryAddress(primaryAddress);
         setMailingAddress(mailingAddress);
     }
+
 }

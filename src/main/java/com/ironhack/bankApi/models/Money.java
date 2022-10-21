@@ -1,16 +1,22 @@
 package com.ironhack.bankApi.models;
 
+import lombok.NoArgsConstructor;
+
+import javax.persistence.Embeddable;
 import java.math.RoundingMode;
 import java.math.BigDecimal;
 import java.util.Currency;
-
+@Embeddable
 public class Money {
-
     private static final Currency USD = Currency.getInstance("USD");
     private static final RoundingMode DEFAULT_ROUNDING = RoundingMode.HALF_EVEN;
 
     private final Currency currency;
     private BigDecimal amount;
+
+    public Money() {
+        this.currency =null;
+    }
 
     /**
      * Class constructor specifying amount, currency, and rounding

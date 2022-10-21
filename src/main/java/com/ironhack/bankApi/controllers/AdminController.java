@@ -32,7 +32,7 @@ public class AdminController implements AdminControllerInterface {
     @ResponseStatus(HttpStatus.CREATED)
     public CreditCard addCreditCard(@Valid @RequestBody CreditCardDTO creditCardDTO) {
         try {
-            return adminService.addCreditCard(creditCardDTO.toCreditCard());
+            return adminService.addCreditCard(creditCardDTO);
         } catch (RuntimeException e) {
             throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, "Out of limits", e);
         }
@@ -41,7 +41,7 @@ public class AdminController implements AdminControllerInterface {
     @ResponseStatus(HttpStatus.CREATED)
     public Savings addSavings(@Valid @RequestBody SavingsDTO savingsDTO) {
         try {
-            return adminService.addCreditCard(savingsDTO.toSavings());
+            return adminService.addCreditCard(savingsDTO);
         } catch (RuntimeException e) {
             throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, "Out of limits", e);
         }

@@ -6,8 +6,10 @@ import lombok.Setter;
 
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
+import javax.persistence.PrimaryKeyJoinColumn;
 import java.math.BigDecimal;
 @Entity
+//@PrimaryKeyJoinColumn(name = "cId")
 @Getter
 public class CreditCard extends Account{
     private BigDecimal creditLimit;
@@ -47,5 +49,17 @@ public class CreditCard extends Account{
             throw new IllegalArgumentException("Interes rate must be between 0.1 and 0.2");
         }
 
+    }
+
+    /**
+     * Probar
+     * @param decrease
+     */
+    @Override
+    public void decreaseBalance(BigDecimal decrease) {
+        super.decreaseBalance(decrease);
+        if(BigDecimal.ZERO.compareTo(super.getBalance().getAmount().subtract(decrease)) >= 0){
+            super.decreaseBalance(getPenaltyFee());
+        }
     }
 }

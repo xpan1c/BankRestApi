@@ -34,4 +34,11 @@ public abstract class User {
         setPassword(password);
         setName(name);
     }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "name='" + name + '\'' +
+                '}';
+    }
 }
