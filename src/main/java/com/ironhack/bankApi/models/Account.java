@@ -29,7 +29,6 @@ public abstract class Account {
     @ManyToOne//(cascade = CascadeType.ALL)
     //@JoinColumn(name = "secondary_id")
     private AccountHolder secondaryOwner;
-    @Setter
     private BigDecimal penaltyFee;
     @Setter
     private LocalDate creationDate;
@@ -41,7 +40,20 @@ public abstract class Account {
         setCreationDate(LocalDate.now(ZoneId.of("Europe/Paris")));
         setStatus(Status.ACTIVE);
     }
-
+    public Account(int secretKey, AccountHolder primaryOwner, AccountHolder secondaryOwner, BigDecimal penaltyFee) {
+        setSecretKey(secretKey);
+        setPrimaryOwner(primaryOwner);
+        setSecondaryOwner(secondaryOwner);
+        setPenaltyFee(penaltyFee);
+        setCreationDate(LocalDate.now(ZoneId.of("Europe/Paris")));
+        setStatus(Status.ACTIVE);
+    }
+    public Account(int secretKey, BigDecimal penaltyFee) {
+        setSecretKey(secretKey);
+        setPenaltyFee(penaltyFee);
+        setCreationDate(LocalDate.now(ZoneId.of("Europe/Paris")));
+        setStatus(Status.ACTIVE);
+    }
 
     public Account(BigDecimal balance, int secretKey, AccountHolder primaryOwner, AccountHolder secondaryOwner, BigDecimal penaltyFee) {
         setBalance(balance);
@@ -51,6 +63,14 @@ public abstract class Account {
         setPenaltyFee(penaltyFee);
         setCreationDate(LocalDate.now(ZoneId.of("Europe/Paris")));
         setStatus(Status.ACTIVE);
+    }
+
+    public void setPenaltyFee(BigDecimal penaltyFee) {
+        if(penaltyFee == null) {
+            this.penaltyFee = BigDecimal.valueOf(40.00);
+        }else {
+            this.penaltyFee = penaltyFee;
+        }
     }
 
     public void setBalance(BigDecimal balance) {

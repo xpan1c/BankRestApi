@@ -2,10 +2,7 @@ package com.ironhack.bankApi.services;
 
 import com.ironhack.bankApi.controllers.DTOs.AccountDTO;
 import com.ironhack.bankApi.models.*;
-import com.ironhack.bankApi.repositories.AccountHolderRepository;
-import com.ironhack.bankApi.repositories.AdminRepository;
-import com.ironhack.bankApi.repositories.CheckingAccountRepository;
-import com.ironhack.bankApi.repositories.StudentCheckingAccountRepository;
+import com.ironhack.bankApi.repositories.*;
 import com.ironhack.bankApi.services.interfaces.AdminServiceInterface;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -23,9 +20,7 @@ public class AdminService implements AdminServiceInterface {
     @Autowired
     AccountHolderRepository accountHolderRepository;
     @Autowired
-    CheckingAccountRepository checkingAccountRepository;
-    @Autowired
-    StudentCheckingAccountRepository studentCheckingAccountRepository;
+    AccountRepository accountRepository;
 
     /**
      * Service to add new Checking Account. Creates a Student Checking Account if Primary Owner age is less than 24, optionally add a secondary owner.
@@ -40,14 +35,23 @@ public class AdminService implements AdminServiceInterface {
             if(accountDTO.getSecondaryOwner() != null) {
                 studentCheckingAccount.setSecondaryOwner(accountHolderRepository.findById(accountDTO.getSecondaryOwner()).get());
             }
-            return studentCheckingAccountRepository.save(studentCheckingAccount);
+            return accountRepository.save(studentCheckingAccount);
         }else{
             CheckingAccount checkingAccount = accountDTO.toCheckingAccount();
             checkingAccount.setPrimaryOwner(primaryOwner);
             if(accountDTO.getSecondaryOwner() != null) {
                 checkingAccount.setSecondaryOwner(accountHolderRepository.findById(accountDTO.getSecondaryOwner()).get());
             }
-            return checkingAccountRepository.save(checkingAccount);
+            return accountRepository.save(checkingAccount);
         }
     }
+
+    public CreditCard addCreditCard(CreditCard creditCard) {
+        return accountRepository.save(creditCard);
+    }
+
+    public Savings addCreditCard(Savings savings) {
+        return accountRepository.save(savings);
+    }
+
 }

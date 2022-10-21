@@ -16,11 +16,20 @@ public class CreditCard extends Account{
     public CreditCard() {
         setCreditLimit(BigDecimal.valueOf(100.00));
         setInteresRate(BigDecimal.valueOf(0.2));
+        setBalance(BigDecimal.valueOf(100.00));
     }
-
-    public CreditCard(BigDecimal creditLimit, BigDecimal interesRate) {
+    public CreditCard(int secretKey, BigDecimal penaltyFee, BigDecimal creditLimit, BigDecimal interesRate) {
+        super(secretKey, penaltyFee);
         setCreditLimit(creditLimit);
         setInteresRate(interesRate);
+        setBalance(creditLimit);
+    }
+
+    public CreditCard(int secretKey, AccountHolder primaryOwner, AccountHolder secondaryOwner, BigDecimal penaltyFee, BigDecimal creditLimit, BigDecimal interesRate) {
+        super(secretKey, primaryOwner, secondaryOwner, penaltyFee);
+        setCreditLimit(creditLimit);
+        setInteresRate(interesRate);
+        setBalance(creditLimit);
     }
 
     public void setCreditLimit(BigDecimal creditLimit) {
