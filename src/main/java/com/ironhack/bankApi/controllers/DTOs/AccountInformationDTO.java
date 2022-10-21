@@ -5,16 +5,13 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.validation.constraints.DecimalMax;
-import javax.validation.constraints.DecimalMin;
-import javax.validation.constraints.Digits;
-import javax.validation.constraints.NotNull;
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class AccountInformationDTO {
-    private String AccountType;
+    private Long id;
+    private String accountType;
     private String balance;
 
     private String secretKey;
@@ -30,8 +27,9 @@ public class AccountInformationDTO {
     private String creditLimit;
     private String interestRate;
 
-    public AccountInformationDTO(String accountType, String balance, String secretKey, String primaryOwner, String secondaryOwner, String penaltyFee, String status) {
-        AccountType = accountType;
+    public AccountInformationDTO(Long id, String accountType, String balance, String secretKey, String primaryOwner, String secondaryOwner, String penaltyFee, String status) {
+        this.id = id;
+        this.accountType = accountType;
         this.balance = balance;
         this.secretKey = secretKey;
         this.primaryOwner = primaryOwner;
@@ -39,8 +37,9 @@ public class AccountInformationDTO {
         this.penaltyFee = penaltyFee;
         this.status = status;
     }
-    public AccountInformationDTO(String accountType, String balance, String secretKey, String primaryOwner, String secondaryOwner, String minimumBalance, String penaltyFee,  String status) {
-        AccountType = accountType;
+    public AccountInformationDTO(Long id, String accountType, String balance, String secretKey, String primaryOwner, String secondaryOwner, String minimumBalance, String penaltyFee,  String status) {
+        this.id = id;
+        this.accountType = accountType;
         this.balance = balance;
         this.secretKey = secretKey;
         this.primaryOwner = primaryOwner;
@@ -49,8 +48,9 @@ public class AccountInformationDTO {
         this.penaltyFee = penaltyFee;
         this.status = status;
     }
-    public AccountInformationDTO(String accountType, String balance, String secretKey, String primaryOwner, String secondaryOwner, String minimumBalance, String penaltyFee, String monthlyMaintenanceFee, String status) {
-        AccountType = accountType;
+    public AccountInformationDTO(Long id, String accountType, String balance, String secretKey, String primaryOwner, String secondaryOwner, String minimumBalance, String penaltyFee, String monthlyMaintenanceFee, String status) {
+        this.id = id;
+        this.accountType = accountType;
         this.balance = balance;
         this.secretKey = secretKey;
         this.primaryOwner = primaryOwner;
