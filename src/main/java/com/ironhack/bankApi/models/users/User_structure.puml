@@ -138,7 +138,7 @@ Address2054190869[
 <TR><TD ALIGN="LEFT" >(C)Address</TD></TR>
 <HR/>
 <TR><TD ALIGN="LEFT" >-   city: String [0..1]</TD></TR>
-<TR><TD ALIGN="LEFT" >-   number: int [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-    [1]</TD></TR>
 <TR><TD ALIGN="LEFT" >-   postalCode: String [0..1]</TD></TR>
 <TR><TD ALIGN="LEFT" >-   street: String [0..1]</TD></TR>
 </TABLE>>
