@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -17,7 +18,6 @@ public abstract class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Setter
     @Column(unique = true)
     private String username;
     @Setter
@@ -25,14 +25,19 @@ public abstract class User {
     private String password;
     @Setter
     private String name;
-    @OneToMany(mappedBy = "user",fetch = FetchType.EAGER)
+    @Setter
+    @OneToMany(targetEntity= Role.class,cascade = CascadeType.ALL , fetch = FetchType.EAGER, mappedBy = "roleUser")
     @JsonIgnore
-    private List<Role> roles;
+    private  List<Role> roles = new ArrayList<>();
 
     public User(String username, String password, String name) {
-        setName(username);
+        setUsername(username);
         setPassword(password);
         setName(name);
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     @Override

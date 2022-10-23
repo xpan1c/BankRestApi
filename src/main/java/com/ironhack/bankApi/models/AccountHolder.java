@@ -11,7 +11,6 @@ import java.util.List;
 @Entity
 @Getter
 @Setter
-@NoArgsConstructor
 public class AccountHolder extends User {
     private LocalDate dateOfBirth;
     @Embedded
@@ -31,10 +30,20 @@ public class AccountHolder extends User {
     @JsonIgnore
     private List<Account> secondaryAccountList;
 
+    public AccountHolder() {
+        super.getRoles().add(new Role("HOLDER",this));
+    }
+
+    public AccountHolder(String username, String password, String name) {
+        super(username, password, name);
+        super.getRoles().add(new Role("HOLDER",this));
+    }
+
     public AccountHolder(String username, String password, String name, LocalDate dateOfBirth, Address primaryAddress) {
         super(username, password, name);
         setDateOfBirth(dateOfBirth);
         setPrimaryAddress(primaryAddress);
+        super.getRoles().add(new Role("HOLDER",this));
     }
 
     public AccountHolder(String username, String password, String name, LocalDate dateOfBirth, Address primaryAddress, Address mailingAddress) {
@@ -42,6 +51,8 @@ public class AccountHolder extends User {
         setDateOfBirth(dateOfBirth);
         setPrimaryAddress(primaryAddress);
         setMailingAddress(mailingAddress);
+        super.getRoles().add(new Role("HOLDER",this));
     }
+
 
 }

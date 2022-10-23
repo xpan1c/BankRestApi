@@ -13,16 +13,24 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
+import java.util.function.Consumer;
 
 @Service
 public class AdminService implements AdminServiceInterface {
+    @Autowired
+    UserRepository userRepository;
     @Autowired
     AdminRepository adminRepository;
     @Autowired
     AccountHolderRepository accountHolderRepository;
     @Autowired
     AccountRepository accountRepository;
+    public List<User> getAllUsers(){
+        return userRepository.findAll();
+    }
 
     /**
      * Service to add new Checking Account. Creates a Student Checking Account if Primary Owner age is less than 24, optionally add a secondary owner.

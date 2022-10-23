@@ -11,7 +11,7 @@ import java.util.Optional;
 
 public interface AccountHolderServiceInterface {
     AccountHolder addAccountHolder(AccountHolder accountHolder);
-    List<AccountInformationDTO> getAccounts(Long id);
+    List<AccountInformationDTO> getAccounts(String username);
 
     TransferList transference(Long id, Long fromId, Long toId, double quantity);
 }

@@ -1,12 +1,8 @@
 package com.ironhack.bankApi.models;
 
 import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 
-import javax.persistence.Embedded;
 import javax.persistence.Entity;
-import javax.persistence.PrimaryKeyJoinColumn;
 import java.math.BigDecimal;
 @Entity
 //@PrimaryKeyJoinColumn(name = "cId")

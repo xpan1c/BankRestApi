@@ -36,6 +36,7 @@ public class AccountDTO {
     @Setter
     @DecimalMin(value = "0.00")
     private Double monthlyMaintenanceFee;
+    @Setter
     @DecimalMin(value = "0.00")
     private Double penaltyFee;
 
@@ -80,15 +81,8 @@ public class AccountDTO {
         StudentCheckingAccount studentCheckingAccount = new StudentCheckingAccount();
         studentCheckingAccount.setBalance(BigDecimal.valueOf(balance).setScale(2,RoundingMode.HALF_EVEN));
         studentCheckingAccount.setSecretKey(secretKey);
-        studentCheckingAccount.setPenaltyFee(BigDecimal.valueOf(penaltyFee).setScale(2,RoundingMode.HALF_EVEN));
+        studentCheckingAccount.setPenaltyFee(BigDecimal.valueOf(Objects.requireNonNullElse(penaltyFee, 40.00)).setScale(2,RoundingMode.HALF_EVEN));
         return studentCheckingAccount;
-    }
-
-    /**
-     * Null penalty fee equals to default penalty fee.
-     */
-    public void setPenaltyFee(Double penaltyFee) {
-        this.penaltyFee = Objects.requireNonNullElse(penaltyFee, 40.00);
     }
 
     /**
@@ -96,14 +90,12 @@ public class AccountDTO {
      * @return checkingAccount
      */
     public CheckingAccount toCheckingAccount(){
-
-        Double minimumBalance = this.minimumBalance;
         CheckingAccount checkingAccount = new CheckingAccount();
         checkingAccount.setBalance(BigDecimal.valueOf(balance).setScale(2,RoundingMode.HALF_EVEN));
         checkingAccount.setSecretKey(secretKey);
         checkingAccount.setMinimumBalance(BigDecimal.valueOf(Objects.requireNonNullElse(minimumBalance, 250.00)).setScale(2,RoundingMode.HALF_EVEN));
         checkingAccount.setMonthlyMaintenanceFee(BigDecimal.valueOf(Objects.requireNonNullElse(monthlyMaintenanceFee, 12.00)).setScale(2,RoundingMode.HALF_EVEN));
-        checkingAccount.setPenaltyFee(BigDecimal.valueOf(penaltyFee).setScale(2,RoundingMode.HALF_EVEN));
+        checkingAccount.setPenaltyFee(BigDecimal.valueOf(Objects.requireNonNullElse(penaltyFee, 40.00)).setScale(2,RoundingMode.HALF_EVEN));
         return checkingAccount;
     }
 }

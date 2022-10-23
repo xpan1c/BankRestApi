@@ -6,6 +6,9 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.validation.constraints.*;
 import java.time.LocalDate;
@@ -16,6 +19,7 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 public class AccountHolderDTO {
+    PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
     @NotEmpty
     private String username;
     @NotEmpty
@@ -37,10 +41,7 @@ public class AccountHolderDTO {
     }
 
     public AccountHolder toAccountHolder() {
-        AccountHolder holder = new AccountHolder();
-        holder.setUsername(username);
-        holder.setPassword(password);
-        holder.setName(name);
+        AccountHolder holder = new AccountHolder(username,passwordEncoder.encode(password),name);
         holder.setDateOfBirth(dateOfBirth);
         holder.setPrimaryAddress(primaryAddress);
         holder.setMailingAddress(mailingAddress);

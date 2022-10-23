@@ -5,6 +5,7 @@ import com.ironhack.bankApi.models.*;
 import com.ironhack.bankApi.repositories.AccountHolderRepository;
 import com.ironhack.bankApi.repositories.AccountRepository;
 import com.ironhack.bankApi.repositories.TransferListRepository;
+import com.ironhack.bankApi.repositories.UserRepository;
 import com.ironhack.bankApi.services.interfaces.AccountHolderServiceInterface;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -24,15 +25,17 @@ public class AccountHolderService implements AccountHolderServiceInterface {
     AccountRepository accountRepository;
     @Autowired
     TransferListRepository transferListRepository;
+    @Autowired
+    UserRepository userRepository;
 
 
     public AccountHolder addAccountHolder(AccountHolder accountHolder) {
         return accountHolderRepository.save(accountHolder);
     }
 
-    public List<AccountInformationDTO> getAccounts(Long id) {
+    public List<AccountInformationDTO> getAccounts(String userName) {
+        AccountHolder accountHolder = accountHolderRepository.findByUsername(userName).get();
         List<AccountInformationDTO> accounts = new ArrayList<>();
-        AccountHolder accountHolder = accountHolderRepository.findById(id).orElseThrow(()-> new ResponseStatusException(HttpStatus.NOT_FOUND));
         for (CheckingAccount acc: accountRepository.findByMainCheckingAccountList(accountHolder)) {
             accounts.add(new AccountInformationDTO(acc.getId(),"Checking Account", acc.getBalance().toString(), String.valueOf(acc.getSecretKey()),
                     acc.getPrimaryOwner().getName(), Objects.requireNonNullElse(acc.getSecondaryOwner(), "none").toString(), new Money(acc.getMinimumBalance()).toString(),

@@ -50,6 +50,6 @@ public class AccountHolderControllerTest {
         System.err.println(body);
 
         MvcResult mvcResult = mockMvc.perform(post("/api/newAccountHolder").content(body).contentType(MediaType.APPLICATION_JSON)).andExpect(status().isCreated()).andReturn();
-        assertTrue(accountHolderRepository.findById(1L).isPresent());
+        assertTrue(accountHolderRepository.findById(2L).isPresent());
     }
 }

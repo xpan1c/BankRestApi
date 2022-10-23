@@ -4,24 +4,27 @@ import com.ironhack.bankApi.controllers.DTOs.AccountDTO;
 import com.ironhack.bankApi.controllers.DTOs.CreditCardDTO;
 import com.ironhack.bankApi.controllers.DTOs.SavingsDTO;
 import com.ironhack.bankApi.controllers.interfaces.AdminControllerInterface;
-import com.ironhack.bankApi.models.Account;
-import com.ironhack.bankApi.models.CreditCard;
-import com.ironhack.bankApi.models.Savings;
+import com.ironhack.bankApi.models.*;
 import com.ironhack.bankApi.services.interfaces.AdminServiceInterface;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.core.parameters.P;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @RestController
 public class AdminController implements AdminControllerInterface {
     @Autowired
     AdminServiceInterface adminService;
+    @GetMapping("/api/admin/getUsers")
+    @ResponseStatus(HttpStatus.OK)
+    @ResponseBody
+    public List<User> getAllUsers(){
+        return adminService.getAllUsers();
+    }
 
     @PostMapping("/api/admin/newCheckingAccount")
     @ResponseStatus(HttpStatus.CREATED)

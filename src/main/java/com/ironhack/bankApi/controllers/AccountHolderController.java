@@ -8,6 +8,9 @@ import com.ironhack.bankApi.models.TransferList;
 import com.ironhack.bankApi.services.interfaces.AccountHolderServiceInterface;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -23,12 +26,23 @@ public class AccountHolderController implements AccountHolderControllerInterface
     public AccountHolder addAccountHolder(@Valid @RequestBody  AccountHolderDTO accountHolderDTO) {
         return accountHolderService.addAccountHolder(accountHolderDTO.toAccountHolder());
     }
-    @GetMapping("/api/accountHolder/{id}/getAccounts")
+    /*
+   @GetMapping("/api/accountHolder/{id}/getAccounts")
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
     public List<AccountInformationDTO> getAccounts(@PathVariable Long id){
         return accountHolderService.getAccounts(id);
     }
+     */
+    @GetMapping("/api/accountHolder/getAccounts")
+    @ResponseStatus(HttpStatus.OK)
+    @ResponseBody
+    public List<AccountInformationDTO> getAccounts(@AuthenticationPrincipal UserDetails userDetails){
+
+        return accountHolderService.getAccounts(userDetails.getUsername());
+    }
+
+
     @PostMapping("/api/accountHolder/{id}/transference")
     @ResponseStatus(HttpStatus.OK)
     public TransferList transference(@PathVariable Long id, @RequestParam Long from, @RequestParam Long to, @RequestParam double quantity){

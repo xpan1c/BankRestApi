@@ -19,10 +19,11 @@ public class Role {
     private String role;
 
     @ManyToOne
-    private User user;
 
-    public Role(String role, User user) {
-        this.role = role;
-        this.user = user;
+    private User roleUser;
+
+    public Role(String role, User roleUser) {
+        setRole(role);
+        setRoleUser(roleUser);
     }
 }
