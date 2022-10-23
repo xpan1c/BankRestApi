@@ -1,8 +1,9 @@
-package com.ironhack.bankApi.models;
+package com.ironhack.bankApi.models.users;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.ironhack.bankApi.models.accounts.Account;
+import com.ironhack.bankApi.models.utils.Address;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;

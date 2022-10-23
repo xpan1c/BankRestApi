@@ -2,13 +2,9 @@ package com.ironhack.bankApi.controllers.interfaces;
 
 import com.ironhack.bankApi.controllers.DTOs.AccountHolderDTO;
 import com.ironhack.bankApi.controllers.DTOs.AccountInformationDTO;
-import com.ironhack.bankApi.models.Account;
-import com.ironhack.bankApi.models.AccountHolder;
-import com.ironhack.bankApi.models.TransferList;
-import org.springframework.http.ResponseEntity;
+import com.ironhack.bankApi.models.users.AccountHolder;
+import com.ironhack.bankApi.models.utils.TransferList;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 

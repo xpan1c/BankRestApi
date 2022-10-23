@@ -1,5 +1,6 @@
 package com.ironhack.bankApi.models;
 
+import com.ironhack.bankApi.models.accounts.CreditCard;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -25,7 +26,7 @@ public class CreditCardTest {
     @DisplayName("Check default creditLimit & interesrate ")
     void defaultCreditLimitAndInteresRate_OK(){
         assertEquals(BigDecimal.valueOf(100.00),creditCard.getCreditLimit());
-        assertEquals(BigDecimal.valueOf(0.2),creditCard.getInteresRate());
+        assertEquals(BigDecimal.valueOf(0.2),creditCard.getInterestRate());
     }
     @Test
     @DisplayName("Check creditLimit limit are OK")
@@ -40,12 +41,12 @@ public class CreditCardTest {
     @Test
     @DisplayName("Check interesRate limit are OK")
     void interesRateLimits_OK(){
-        creditCard.setInteresRate(BigDecimal.valueOf(0.1));
-        assertEquals(BigDecimal.valueOf(0.1),creditCard.getInteresRate());
-        creditCard.setInteresRate(BigDecimal.valueOf(0.2));
-        assertEquals(BigDecimal.valueOf(0.2),creditCard.getInteresRate());
-        assertThrows(IllegalArgumentException.class,() -> creditCard.setInteresRate(BigDecimal.valueOf(0.09)));
-        assertThrows(IllegalArgumentException.class,() -> creditCard.setInteresRate(BigDecimal.valueOf(0.21)));
+        creditCard.setInterestRate(BigDecimal.valueOf(0.1));
+        assertEquals(BigDecimal.valueOf(0.1),creditCard.getInterestRate());
+        creditCard.setInterestRate(BigDecimal.valueOf(0.2));
+        assertEquals(BigDecimal.valueOf(0.2),creditCard.getInterestRate());
+        assertThrows(IllegalArgumentException.class,() -> creditCard.setInterestRate(BigDecimal.valueOf(0.09)));
+        assertThrows(IllegalArgumentException.class,() -> creditCard.setInterestRate(BigDecimal.valueOf(0.21)));
     }
 
 }

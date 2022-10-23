@@ -8,10 +8,9 @@ import com.ironhack.bankApi.controllers.DTOs.AccountDTO;
 import com.ironhack.bankApi.controllers.DTOs.AccountHolderDTO;
 import com.ironhack.bankApi.controllers.DTOs.CreditCardDTO;
 import com.ironhack.bankApi.controllers.DTOs.SavingsDTO;
-import com.ironhack.bankApi.models.AccountHolder;
-import com.ironhack.bankApi.models.Address;
-import com.ironhack.bankApi.repositories.AccountHolderRepository;
-import com.ironhack.bankApi.repositories.AccountRepository;
+import com.ironhack.bankApi.models.users.AccountHolder;
+import com.ironhack.bankApi.models.utils.Address;
+import com.ironhack.bankApi.repositories.*;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -23,10 +22,11 @@ import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.LocalDate;
 
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -34,6 +34,12 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class AdminControllerTest {
     @Autowired
     AccountRepository accountRepository;
+    @Autowired
+    StudentCheckingAccountRepository studentCheckingAccountRepository;
+    @Autowired
+    CreditCardRepository creditCardRepository;
+    @Autowired
+SavingsRepository savingsRepository;
     @Autowired
     AccountHolderRepository accountHolderRepository;
     @Autowired
@@ -49,17 +55,21 @@ public class AdminControllerTest {
             .registerModule(new ParameterNamesModule())
             .registerModule(new Jdk8Module())
             .registerModule(new JavaTimeModule());
-    PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+    PasswordEncoder passwordEncoder;
 
 
     @BeforeEach
     public void setUp(){
+        passwordEncoder = new BCryptPasswordEncoder();
         mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
-        accountHolder = new AccountHolder("abcde", "12345", "Juan Pablo", LocalDate.of(1990, 10, 10), new Address(), new Address());
-        student = new AccountHolder("asde", "1234", "Juan Jose", LocalDate.of(2002, 10, 10), new Address(), new Address());
-        accountDTO = new AccountDTO(1500.00,1234,1L);
-        creditCardDTO = new CreditCardDTO(1234,1L,41.00,150.00);
-        savingsDTO = new SavingsDTO(1500.00,1234,1L);
+        accountHolder = new AccountHolder("abcde", passwordEncoder.encode("12345"), "Juan Pablo", LocalDate.of(1990, 10, 10), new Address(), new Address());
+        student = new AccountHolder("asde", passwordEncoder.encode("1234"), "Juan Jose", LocalDate.of(2002, 10, 10), new Address(), new Address());
+        accountDTO = new AccountDTO(1500.00,1234,2L);
+        creditCardDTO = new CreditCardDTO(1234,2L);
+        savingsDTO = new SavingsDTO(1500.00,1234,2L);
+
+        //System.err.println(BigDecimal.valueOf(0.0025));
+        //System.out.println(BigDecimal.valueOf(savingsDTO.getInterestRate()).compareTo(BigDecimal.valueOf(0.0025)));
     }
     /*
     @AfterEach
@@ -80,17 +90,17 @@ public class AdminControllerTest {
         System.err.println(body);
 
         MvcResult mvcResult = mockMvc.perform(post("/api/admin/newCheckingAccount").content(body).contentType(MediaType.APPLICATION_JSON)).andExpect(status().isCreated()).andReturn();
-        assertTrue(accountRepository.findById(2L).isPresent());
+        assertEquals(BigDecimal.valueOf(1500.00).setScale(2, RoundingMode.HALF_EVEN),accountRepository.findByMainCheckingAccountList(accountHolderRepository.findByUsername("abcde").get()).get(0).getBalance().getAmount());
     }
     @Test
     @DisplayName("Check if Student account created correctly")
     void post_StudentCheckingAccount_isCreated() throws Exception {
-        accountDTO.setPrimaryOwner(2L);
+        accountDTO.setPrimaryOwner(3L);
         String body = objectMapper.writeValueAsString(accountDTO);
         System.err.println(body);
         MvcResult mvcResult = mockMvc.perform(post("/api/admin/newCheckingAccount").content(body).contentType(MediaType.APPLICATION_JSON)).andExpect(status().isCreated()).andReturn();
-        System.err.println(accountRepository.findAll().get(0).getId());
-        assertTrue(accountRepository.findById(3L).isPresent());
+        System.err.println(studentCheckingAccountRepository.findAll());
+        assertFalse(studentCheckingAccountRepository.findAll().isEmpty());
     }
     @Test
     @DisplayName("Check if CreditCard is created correctly")
@@ -98,17 +108,18 @@ public class AdminControllerTest {
         String body = objectMapper.writeValueAsString(creditCardDTO);
         System.err.println(body);
         MvcResult mvcResult = mockMvc.perform(post("/api/admin/newCreditCard").content(body).contentType(MediaType.APPLICATION_JSON)).andExpect(status().isCreated()).andReturn();
-        System.err.println(accountRepository.findAll().get(2).getBalance());
-        assertTrue(accountRepository.findById(4L).isPresent());
+        System.err.println(creditCardRepository.findAll());
+        assertFalse(creditCardRepository.findAll().isEmpty());
     }
     @Test
     @DisplayName("Check if Savings is created correctly")
     void post_Savings_isCreated() throws Exception {
         String body = objectMapper.writeValueAsString(savingsDTO);
         System.err.println(body);
+        System.err.println(BigDecimal.valueOf(0.0025));
         MvcResult mvcResult = mockMvc.perform(post("/api/admin/newSavings").content(body).contentType(MediaType.APPLICATION_JSON)).andExpect(status().isCreated()).andReturn();
-        System.err.println(accountRepository.findAll().get(2).getBalance());
-        assertTrue(accountRepository.findById(5L).isPresent());
+        System.err.println(savingsRepository.findAll());
+        assertFalse(savingsRepository.findAll().isEmpty());
     }
     @Test
     @DisplayName("Test find All users")

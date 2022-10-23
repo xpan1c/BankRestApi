@@ -1,6 +1,8 @@
-package com.ironhack.bankApi.models;
+package com.ironhack.bankApi.models.accounts;
 
 import com.ironhack.bankApi.models.enums.Status;
+import com.ironhack.bankApi.models.users.AccountHolder;
+import com.ironhack.bankApi.models.utils.Money;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -18,7 +20,7 @@ public abstract class Account {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Embedded
-    private  Money balance;
+    private Money balance;
     @Setter
     private int secretKey;
     @ManyToOne//(cascade = CascadeType.ALL)
@@ -49,6 +51,13 @@ public abstract class Account {
         setStatus(Status.ACTIVE);
     }
     public Account(int secretKey, BigDecimal penaltyFee) {
+        setSecretKey(secretKey);
+        setPenaltyFee(penaltyFee);
+        setCreationDate(LocalDate.now(ZoneId.of("Europe/Paris")));
+        setStatus(Status.ACTIVE);
+    }
+    public Account(BigDecimal balance, int secretKey, BigDecimal penaltyFee) {
+        setBalance(balance);
         setSecretKey(secretKey);
         setPenaltyFee(penaltyFee);
         setCreationDate(LocalDate.now(ZoneId.of("Europe/Paris")));

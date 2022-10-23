@@ -1,8 +1,6 @@
 package com.ironhack.bankApi.controllers.DTOs;
 
-import com.ironhack.bankApi.models.CheckingAccount;
-import com.ironhack.bankApi.models.Savings;
-import com.ironhack.bankApi.models.StudentCheckingAccount;
+import com.ironhack.bankApi.models.accounts.Savings;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -18,7 +16,6 @@ import java.util.Objects;
 
 @Getter
 @NoArgsConstructor
-@AllArgsConstructor
 public class SavingsDTO {
     @Setter
     @DecimalMin(value = "0.00")
@@ -33,12 +30,16 @@ public class SavingsDTO {
     private Long primaryOwner;
     @Setter
     private Long secondaryOwner;
+    @Setter
     @DecimalMin(value = "0.00")
     private Double minimumBalance;
+    @Setter
     @DecimalMin(value = "0.00")
     private Double penaltyFee;
+    @Setter
     @DecimalMax(value = "0.5", message = "interestRate can't be greater than 0.5")
     @DecimalMin(value = "0.0025", message = "interestRate can't be less than 0.0025")
+    //@Digits(integer = 1, fraction = 4)
     private Double interestRate;
     /**
      * Constructor for test uses.
@@ -49,15 +50,17 @@ public class SavingsDTO {
         setPrimaryOwner(primaryOwner);
 
     }
+
     /**
      * Constructor for test uses.
      */
-    public SavingsDTO(Double balance, int secretKey, Long primaryOwner, Double minimumBalance) {
+    public SavingsDTO(Double balance, int secretKey, Long primaryOwner, Double interestRate) {
         setBalance(balance);
         setSecretKey(secretKey);
         setPrimaryOwner(primaryOwner);
-        setMinimumBalance(minimumBalance);
+        setInterestRate(interestRate);
     }
+
     /**
      * Constructor for test uses.
      */
@@ -69,40 +72,15 @@ public class SavingsDTO {
         setPenaltyFee(penaltyFee);
     }
 
-
-
-
-    /**
-     * Null penalty fee equals to default penalty fee.
-     */
-    public void setPenaltyFee(Double penaltyFee) {
-        this.penaltyFee = Objects.requireNonNullElse(penaltyFee, 40.00);
-    }
-
-    /**
-     * Null minimum Balance equals to default penalty fee.
-     */
-    public void setMinimumBalance(Double minimumBalance) {
-        this.minimumBalance = Objects.requireNonNullElse(minimumBalance, 1000.00);
-    }
-    /**
-     * Null minimum Balance equals to default penalty fee.
-     */
-    public void setInterestRate(Double interestRate) {
-        this.interestRate = Objects.requireNonNullElse(interestRate, 0.0025);
-    }
-
     /**
      * Method to convert to Saving
      * @return Savings
      */
     public Savings toSavings(){
-        Savings savings = new Savings();
-        savings.setBalance(BigDecimal.valueOf(balance).setScale(2,RoundingMode.HALF_EVEN));
-        savings.setSecretKey(secretKey);
-        savings.setMinimumBalance(BigDecimal.valueOf(Objects.requireNonNullElse(minimumBalance, 1000.00)).setScale(2,RoundingMode.HALF_EVEN));
-        savings.setPenaltyFee(BigDecimal.valueOf(penaltyFee).setScale(2,RoundingMode.HALF_EVEN));
-        savings.setPenaltyFee(BigDecimal.valueOf(interestRate));
-        return savings;
+        BigDecimal minimumBalance = BigDecimal.valueOf(Objects.requireNonNullElse(this.minimumBalance, 1000.00)).setScale(2,RoundingMode.HALF_EVEN);
+        BigDecimal penaltyFee = BigDecimal.valueOf(Objects.requireNonNullElse(this.penaltyFee, 40.00)).setScale(2,RoundingMode.HALF_EVEN);
+        BigDecimal interestRate = BigDecimal.valueOf(Objects.requireNonNullElse(this.interestRate, 0.0025)).setScale(4,RoundingMode.HALF_EVEN);
+        BigDecimal balance = BigDecimal.valueOf(Objects.requireNonNullElse(this.balance, 1000.00)).setScale(2,RoundingMode.HALF_EVEN);
+        return new Savings(balance,this.secretKey, penaltyFee, minimumBalance, interestRate);
     }
 }

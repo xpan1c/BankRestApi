@@ -1,12 +1,10 @@
-package com.ironhack.bankApi.models;
+package com.ironhack.bankApi.models.accounts;
 
-import com.ironhack.bankApi.models.enums.Status;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.Entity;
-import javax.persistence.PrimaryKeyJoinColumn;
 
 @Entity
 //@PrimaryKeyJoinColumn(name = "scaId")

@@ -1,6 +1,7 @@
 package com.ironhack.bankApi.controllers.DTOs;
 
-import com.ironhack.bankApi.models.*;
+import com.ironhack.bankApi.models.accounts.CheckingAccount;
+import com.ironhack.bankApi.models.accounts.StudentCheckingAccount;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

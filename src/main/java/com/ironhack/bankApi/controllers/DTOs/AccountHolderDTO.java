@@ -1,12 +1,11 @@
 package com.ironhack.bankApi.controllers.DTOs;
 
-import com.ironhack.bankApi.models.AccountHolder;
-import com.ironhack.bankApi.models.Address;
+import com.ironhack.bankApi.models.users.AccountHolder;
+import com.ironhack.bankApi.models.utils.Address;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 

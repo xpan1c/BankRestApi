@@ -1,7 +1,6 @@
 package com.ironhack.bankApi;
 
-import com.ironhack.bankApi.models.Admin;
-import com.ironhack.bankApi.models.Role;
+import com.ironhack.bankApi.models.users.Admin;
 import com.ironhack.bankApi.repositories.AdminRepository;
 import com.ironhack.bankApi.repositories.RoleRepository;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -29,6 +29,12 @@ public class AccountInformationDTO {
     private String creditLimit;
     private String interestRate;
 
+    public AccountInformationDTO(Long id, String accountType, String balance) {
+        this.id = id;
+        this.accountType = accountType;
+        this.balance = balance;
+    }
+
     public AccountInformationDTO(Long id, String accountType, String balance, String secretKey, String primaryOwner, String secondaryOwner, String penaltyFee, String status) {
         this.id = id;
         this.accountType = accountType;

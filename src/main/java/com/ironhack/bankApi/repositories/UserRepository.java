@@ -1,6 +1,6 @@
 package com.ironhack.bankApi.repositories;
 
-import com.ironhack.bankApi.models.User;
+import com.ironhack.bankApi.models.users.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

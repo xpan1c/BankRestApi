@@ -1,5 +1,6 @@
-package com.ironhack.bankApi.models;
+package com.ironhack.bankApi.models.users;
 
+import com.ironhack.bankApi.models.users.User;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -19,7 +20,6 @@ public class Role {
     private String role;
 
     @ManyToOne
-
     private User roleUser;
 
     public Role(String role, User roleUser) {

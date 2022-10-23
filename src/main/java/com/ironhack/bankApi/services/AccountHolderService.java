@@ -1,7 +1,10 @@
 package com.ironhack.bankApi.services;
 
 import com.ironhack.bankApi.controllers.DTOs.AccountInformationDTO;
-import com.ironhack.bankApi.models.*;
+import com.ironhack.bankApi.models.accounts.*;
+import com.ironhack.bankApi.models.users.AccountHolder;
+import com.ironhack.bankApi.models.utils.Money;
+import com.ironhack.bankApi.models.utils.TransferList;
 import com.ironhack.bankApi.repositories.AccountHolderRepository;
 import com.ironhack.bankApi.repositories.AccountRepository;
 import com.ironhack.bankApi.repositories.TransferListRepository;
@@ -37,24 +40,20 @@ public class AccountHolderService implements AccountHolderServiceInterface {
         AccountHolder accountHolder = accountHolderRepository.findByUsername(userName).get();
         List<AccountInformationDTO> accounts = new ArrayList<>();
         for (CheckingAccount acc: accountRepository.findByMainCheckingAccountList(accountHolder)) {
-            accounts.add(new AccountInformationDTO(acc.getId(),"Checking Account", acc.getBalance().toString(), String.valueOf(acc.getSecretKey()),
-                    acc.getPrimaryOwner().getName(), Objects.requireNonNullElse(acc.getSecondaryOwner(), "none").toString(), new Money(acc.getMinimumBalance()).toString(),
-                  new Money (acc.getPenaltyFee()).toString(),new Money(acc.getMonthlyMaintenanceFee()).toString(), acc.getStatus().toString()));
+            accounts.add(new AccountInformationDTO(acc.getId(),"Checking Account", acc.getBalance().toString()));
         }
         for (CreditCard acc: accountRepository.findByCreditCardList(accountHolder)) {
-            accounts.add(new AccountInformationDTO(acc.getId(),"Credit Card", acc.getBalance().toString(),
-                    String.valueOf(acc.getSecretKey()), acc.getPrimaryOwner().getName(), Objects.requireNonNullElse(acc.getSecondaryOwner(), "none").toString(),
-                  new Money (acc.getPenaltyFee()).toString(), acc.getStatus().toString()));
+            accounts.add(new AccountInformationDTO(acc.getId(),"Credit Card", acc.getBalance().toString()));
+            acc.addInterest();
+            accountRepository.save(acc);
         }
         for (Savings acc: accountRepository.findByMainSavingsAccountList(accountHolder)) {
-            accounts.add(new AccountInformationDTO(acc.getId(),"Savings Account", acc.getBalance().toString(), String.valueOf(acc.getSecretKey()),
-                    acc.getPrimaryOwner().getName(), Objects.requireNonNullElse(acc.getSecondaryOwner(), "none").toString(), new Money(acc.getMinimumBalance()).toString(),
-                  new Money (acc.getPenaltyFee()).toString(), acc.getStatus().toString()));
+            accounts.add(new AccountInformationDTO(acc.getId(),"Savings Account", acc.getBalance().toString()));
+            acc.addInterest();
+            accountRepository.save(acc);
         }
         for (StudentCheckingAccount acc: accountRepository.findByMainStudentCheckingAccountList(accountHolder)) {
-            accounts.add(new AccountInformationDTO(acc.getId(),"Student Checking Account", acc.getBalance().toString(), String.valueOf(acc.getSecretKey()),
-                    acc.getPrimaryOwner().getName(), Objects.requireNonNullElse(acc.getSecondaryOwner(), "none").toString(),
-                  new Money (acc.getPenaltyFee()).toString(), acc.getStatus().toString()));
+            accounts.add(new AccountInformationDTO(acc.getId(),"Student Checking Account", acc.getBalance().toString()));
         }
         return accounts;
     }

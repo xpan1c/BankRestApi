@@ -1,4 +1,4 @@
-package com.ironhack.bankApi.models;
+package com.ironhack.bankApi.models.accounts;
 
 import lombok.Getter;
 import lombok.Setter;

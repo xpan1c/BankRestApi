@@ -1,6 +1,6 @@
 package com.ironhack.bankApi.models;
 
-import com.ironhack.bankApi.models.Savings;
+import com.ironhack.bankApi.models.accounts.Savings;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -25,18 +25,18 @@ public class SavingsTest {
     @Test
     @DisplayName("Check default saving interes rate and minimum balance")
     void savingsDefault_OK(){
-        assertEquals(BigDecimal.valueOf(0.0025),savings.getInteresRate());
+        assertEquals(BigDecimal.valueOf(0.0025),savings.getInterestRate());
         assertEquals(BigDecimal.valueOf(1000.00),savings.getMinimumBalance());
     }
     @Test
     @DisplayName("Check if interes rate limits are ok")
     void interestRate_limits_ok(){
-        savings.setInteresRate(BigDecimal.valueOf(0.5));
-        assertEquals(BigDecimal.valueOf(0.5),savings.getInteresRate());
-        savings.setInteresRate(BigDecimal.valueOf(0.0025));
-        assertEquals(BigDecimal.valueOf(0.0025),savings.getInteresRate());
-        assertThrows(IllegalArgumentException.class,() ->savings.setInteresRate(BigDecimal.valueOf(0.51)));
-        assertThrows(IllegalArgumentException.class,() ->savings.setInteresRate(BigDecimal.valueOf(0.0024)));
+        savings.setInterestRate(BigDecimal.valueOf(0.5));
+        assertEquals(BigDecimal.valueOf(0.5),savings.getInterestRate());
+        savings.setInterestRate(BigDecimal.valueOf(0.0025));
+        assertEquals(BigDecimal.valueOf(0.0025),savings.getInterestRate());
+        assertThrows(IllegalArgumentException.class,() ->savings.setInterestRate(BigDecimal.valueOf(0.51)));
+        assertThrows(IllegalArgumentException.class,() ->savings.setInterestRate(BigDecimal.valueOf(0.0024)));
     }
     @Test
     @DisplayName("Check if minimum Balance limits are ok")

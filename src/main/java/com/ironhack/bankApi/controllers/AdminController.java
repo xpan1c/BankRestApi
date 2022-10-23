@@ -4,11 +4,13 @@ import com.ironhack.bankApi.controllers.DTOs.AccountDTO;
 import com.ironhack.bankApi.controllers.DTOs.CreditCardDTO;
 import com.ironhack.bankApi.controllers.DTOs.SavingsDTO;
 import com.ironhack.bankApi.controllers.interfaces.AdminControllerInterface;
-import com.ironhack.bankApi.models.*;
+import com.ironhack.bankApi.models.accounts.Account;
+import com.ironhack.bankApi.models.accounts.CreditCard;
+import com.ironhack.bankApi.models.accounts.Savings;
+import com.ironhack.bankApi.models.users.User;
 import com.ironhack.bankApi.services.interfaces.AdminServiceInterface;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -44,8 +46,8 @@ public class AdminController implements AdminControllerInterface {
     @ResponseStatus(HttpStatus.CREATED)
     public Savings addSavings(@Valid @RequestBody SavingsDTO savingsDTO) {
         try {
-            return adminService.addCreditCard(savingsDTO);
-        } catch (RuntimeException e) {
+            return adminService.addSavings(savingsDTO);
+        } catch (IllegalArgumentException e) {
             throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, "Out of limits", e);
         }
     }

@@ -1,6 +1,7 @@
-package com.ironhack.bankApi.models;
+package com.ironhack.bankApi.models.utils;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.ironhack.bankApi.models.accounts.Account;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;

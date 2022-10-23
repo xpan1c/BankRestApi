@@ -1,4 +1,4 @@
-package com.ironhack.bankApi.models;
+package com.ironhack.bankApi.models.users;
 
 
 import lombok.NoArgsConstructor;

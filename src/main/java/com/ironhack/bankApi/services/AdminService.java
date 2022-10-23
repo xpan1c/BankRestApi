@@ -3,7 +3,9 @@ package com.ironhack.bankApi.services;
 import com.ironhack.bankApi.controllers.DTOs.AccountDTO;
 import com.ironhack.bankApi.controllers.DTOs.CreditCardDTO;
 import com.ironhack.bankApi.controllers.DTOs.SavingsDTO;
-import com.ironhack.bankApi.models.*;
+import com.ironhack.bankApi.models.accounts.*;
+import com.ironhack.bankApi.models.users.AccountHolder;
+import com.ironhack.bankApi.models.users.User;
 import com.ironhack.bankApi.repositories.*;
 import com.ironhack.bankApi.services.interfaces.AdminServiceInterface;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,10 +15,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
-import java.util.function.Consumer;
 
 @Service
 public class AdminService implements AdminServiceInterface {
@@ -67,7 +66,7 @@ public class AdminService implements AdminServiceInterface {
         return accountRepository.save(creditCard);
     }
 
-    public Savings addCreditCard(SavingsDTO savingsDTO) {
+    public Savings addSavings(SavingsDTO savingsDTO) {
         AccountHolder primaryOwner = accountHolderRepository.findById(savingsDTO.getPrimaryOwner()).orElseThrow(()->
                 new ResponseStatusException(HttpStatus.NOT_FOUND));
         Savings savings = savingsDTO.toSavings();
