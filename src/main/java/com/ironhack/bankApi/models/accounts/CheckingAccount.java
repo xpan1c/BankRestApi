@@ -13,15 +13,18 @@ public class CheckingAccount extends Account{
     private BigDecimal minimumBalance;
     private BigDecimal monthlyMaintenanceFee;
 
+    /**
+     * Default minimum Balance 250.00 and MonthlyMaintenanceFee 12.00
+     */
     public CheckingAccount() {
         setMinimumBalance(BigDecimal.valueOf(250.00));
         setMonthlyMaintenanceFee(BigDecimal.valueOf(12.00));
     }
 
-    public void setMinimumBalance(BigDecimal minimumBalance) {
-        this.minimumBalance = minimumBalance;
-    }
-
+    /**
+     * It applies penalty fee
+     * @param decrease amount to Decrease Balance
+     */
     @Override
     public void decreaseBalance(BigDecimal decrease) {
         super.decreaseBalance(decrease);

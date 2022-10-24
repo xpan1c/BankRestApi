@@ -31,11 +31,19 @@ public class AccountHolderService implements AccountHolderServiceInterface {
     @Autowired
     UserRepository userRepository;
 
-
+    /**
+     * Create a new Account  Holder
+     * @return Saved accountHolder
+     */
     public AccountHolder addAccountHolder(AccountHolder accountHolder) {
         return accountHolderRepository.save(accountHolder);
     }
 
+    /**
+     * Service to get All username account.
+     * @param userName
+     * @return A list of username's accounts.
+     */
     public List<AccountInformationDTO> getAccounts(String userName) {
         AccountHolder accountHolder = accountHolderRepository.findByUsername(userName).get();
         List<AccountInformationDTO> accounts = new ArrayList<>();
@@ -58,13 +66,16 @@ public class AccountHolderService implements AccountHolderServiceInterface {
         return accounts;
     }
 
-    public TransferList transference(Long id, Long fromId, Long toId, double quantity) {
-        AccountHolder accountHolder = accountHolderRepository.findById(id).orElseThrow(()-> new ResponseStatusException(HttpStatus.NOT_FOUND,"This account holder id does not exist" ));
-        Account from = accountRepository.findById(fromId).orElseThrow(()-> new ResponseStatusException(HttpStatus.NOT_FOUND,"The sender  given id does not exist"));
-        Account to = accountRepository.findById(toId).orElseThrow(()-> new ResponseStatusException(HttpStatus.NOT_FOUND,"A receiver given id does not exist" ));
-        TransferList transferList= new TransferList(from,to, BigDecimal.valueOf(quantity));
-        accountRepository.save(from);
-        accountRepository.save(to);
-        return transferListRepository.save(transferList);
+    public TransferList transference(String usernameFrom, Long fromId, Long toId, double quantity) {
+        if(getAccounts(usernameFrom).stream().anyMatch(accountInformationDTO -> accountInformationDTO.getId() == fromId)){
+            Account from = accountRepository.findById(fromId).orElseThrow(()-> new ResponseStatusException(HttpStatus.NOT_FOUND,"The sender  given id does not exist"));
+            Account to = accountRepository.findById(toId).orElseThrow(()-> new ResponseStatusException(HttpStatus.NOT_FOUND,"A receiver given id does not exist" ));
+            TransferList transferList= new TransferList(from,to, BigDecimal.valueOf(quantity));
+            accountRepository.save(from);
+            accountRepository.save(to);
+            return transferListRepository.save(transferList);
+        }else{
+            throw  new ResponseStatusException(HttpStatus.FORBIDDEN,"It's not sender account id");
+        }
     }
 }

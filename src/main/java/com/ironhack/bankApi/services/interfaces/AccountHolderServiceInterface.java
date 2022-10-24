@@ -7,8 +7,24 @@ import com.ironhack.bankApi.models.utils.TransferList;
 import java.util.List;
 
 public interface AccountHolderServiceInterface {
+    /**
+     * Service to create a new Account  Holder
+     * @return Saved accountHolder
+     */
     AccountHolder addAccountHolder(AccountHolder accountHolder);
+    /**
+     * Service to get All username account.
+     * @return A list of username's accounts.
+     */
     List<AccountInformationDTO> getAccounts(String username);
 
-    TransferList transference(Long id, Long fromId, Long toId, double quantity);
+    /**
+     *  Service to transfer from username account to another account
+     * @param userNameFrom
+     * @param fromId username ids
+     * @param toId
+     * @param quantity
+     * @return
+     */
+    TransferList transference(String userNameFrom, Long fromId, Long toId, double quantity);
 }

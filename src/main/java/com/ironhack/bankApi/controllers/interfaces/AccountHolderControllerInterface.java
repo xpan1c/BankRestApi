@@ -11,5 +11,5 @@ import java.util.List;
 public interface AccountHolderControllerInterface {
     AccountHolder addAccountHolder(AccountHolderDTO AccountHolderDTO);
     List<AccountInformationDTO> getAccounts(UserDetails userDetails);
-    TransferList transference(Long id,  Long fromId,  Long toId,  double quantity);
+    TransferList transference(UserDetails userDetails, Long from,  Long toId,  double quantity);
 }

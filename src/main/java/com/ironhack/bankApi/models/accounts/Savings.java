@@ -18,18 +18,25 @@ public class Savings extends Account{
     @Setter
     private LocalDate interestDate;
 
+    /**
+     * Default MinimumBalance 1000.00, default InterestRate 0.0025
+     */
     public Savings() {
         setMinimumBalance(BigDecimal.valueOf(1000.00));
         setInterestRate(BigDecimal.valueOf(0.0025));
         this.interestDate = super.getCreationDate();
     }
-
+    /**
+     * Set interest date to the creation date
+     */
     public Savings(BigDecimal minimumBalance, BigDecimal interestRate) {
         setMinimumBalance(minimumBalance);
         setInterestRate(interestRate);
         this.interestDate = super.getCreationDate();
     }
-
+    /**
+     * Set interest date to the creation date
+     */
     public Savings(BigDecimal balance, int secretKey, BigDecimal penaltyFee, BigDecimal minimumBalance, BigDecimal interestRate) {
         super(balance, secretKey, penaltyFee);
         setMinimumBalance(minimumBalance);
@@ -37,6 +44,10 @@ public class Savings extends Account{
         this.interestDate = super.getCreationDate();
     }
 
+    /**
+     *
+     * @param minimumBalance Greater or equals than 100.00
+     */
     public void setMinimumBalance(BigDecimal minimumBalance) {
         if( minimumBalance.compareTo(BigDecimal.valueOf(100.00)) >= 0) {
             this.minimumBalance = minimumBalance;
@@ -45,6 +56,10 @@ public class Savings extends Account{
         }
     }
 
+    /**
+     *
+     * @param interestRate It has to be between 0.0025 and 0.5
+     */
     public void setInterestRate(BigDecimal interestRate) {
         if( interestRate.compareTo(BigDecimal.valueOf(0.0025)) >= 0 & interestRate.compareTo(BigDecimal.valueOf(0.5)) <= 0) {
             this.interestRate = interestRate;
@@ -53,6 +68,10 @@ public class Savings extends Account{
         }
     }
 
+    /**
+     * Applies penalty fee
+     * @param decrease amount to Decrease Balance
+     */
     @Override
     public void decreaseBalance(BigDecimal decrease) {
         super.decreaseBalance(decrease);
@@ -60,6 +79,10 @@ public class Savings extends Account{
             super.decreaseBalance(getPenaltyFee());
         }
     }
+
+    /**
+     * Applies interest every year
+     */
     public void addInterest(){
         LocalDate localDate = LocalDate.now(ZoneId.of("Europe/Paris"));
         if(localDate.isAfter(this.getInterestDate().plusYears(1))){

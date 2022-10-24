@@ -45,11 +45,11 @@ public class AccountHolderController implements AccountHolderControllerInterface
 
     @PostMapping("/api/accountHolder/transference")
     @ResponseStatus(HttpStatus.OK)
-    public TransferList transference(@PathVariable Long id, @RequestParam Long from, @RequestParam Long to, @RequestParam double quantity){
+    public TransferList transference(@AuthenticationPrincipal UserDetails userDetails, @RequestParam Long from,@RequestParam Long to, @RequestParam double quantity){
         try {
-            return accountHolderService.transference(id,from,to,quantity);
+            return accountHolderService.transference(userDetails.getUsername(),from,to,quantity);
         }catch (IllegalArgumentException e){
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Transfer did not take place" );
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Transfer did not take place, "+ e );
         }
 
     }

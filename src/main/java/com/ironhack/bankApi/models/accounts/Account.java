@@ -37,11 +37,18 @@ public abstract class Account {
     @Setter
     private Status status;
 
+    /**
+     * Default Penalty fee 40.00, set creation date at this time. Default Status Active
+     */
     public Account() {
         setPenaltyFee(BigDecimal.valueOf(40.00));
         setCreationDate(LocalDate.now(ZoneId.of("Europe/Paris")));
         setStatus(Status.ACTIVE);
     }
+
+    /**
+     * Set creation date at this time. Default Status Active
+     */
     public Account(int secretKey, AccountHolder primaryOwner, AccountHolder secondaryOwner, BigDecimal penaltyFee) {
         setSecretKey(secretKey);
         setPrimaryOwner(primaryOwner);
@@ -50,12 +57,18 @@ public abstract class Account {
         setCreationDate(LocalDate.now(ZoneId.of("Europe/Paris")));
         setStatus(Status.ACTIVE);
     }
+    /**
+     * Set creation date at this time. Default Status Active
+     */
     public Account(int secretKey, BigDecimal penaltyFee) {
         setSecretKey(secretKey);
         setPenaltyFee(penaltyFee);
         setCreationDate(LocalDate.now(ZoneId.of("Europe/Paris")));
         setStatus(Status.ACTIVE);
     }
+    /**
+     * Set creation date at this time. Default Status Active
+     */
     public Account(BigDecimal balance, int secretKey, BigDecimal penaltyFee) {
         setBalance(balance);
         setSecretKey(secretKey);
@@ -63,7 +76,9 @@ public abstract class Account {
         setCreationDate(LocalDate.now(ZoneId.of("Europe/Paris")));
         setStatus(Status.ACTIVE);
     }
-
+    /**
+     * Set creation date at this time. Default Status Active
+     */
     public Account(BigDecimal balance, int secretKey, AccountHolder primaryOwner, AccountHolder secondaryOwner, BigDecimal penaltyFee) {
         setBalance(balance);
         setSecretKey(secretKey);
@@ -74,6 +89,10 @@ public abstract class Account {
         setStatus(Status.ACTIVE);
     }
 
+    /**
+     *
+     * @param penaltyFee Default 40.00
+     */
 
     public void setPenaltyFee(BigDecimal penaltyFee) {
         if(penaltyFee == null) {
@@ -87,10 +106,18 @@ public abstract class Account {
         this.balance = new Money(balance);
     }
 
+    /**
+     * Decrease amount balance of this account
+     * @param decrease amount to Decrease Balance
+     */
+
     public void decreaseBalance(BigDecimal decrease){
         balance.decreaseAmount(decrease);
     }
-
+    /**
+     * Increase amount balance of this account
+     * @param increase amount to increase Balance
+     */
     public void increaseBalance(BigDecimal increase){
         balance.increaseAmount(increase);
     }

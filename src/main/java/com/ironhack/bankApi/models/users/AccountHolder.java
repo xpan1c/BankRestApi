@@ -31,22 +31,31 @@ public class AccountHolder extends User {
     @JsonIgnore
     private List<Account> secondaryAccountList;
 
+    /**
+     * Add HOLDER role on creation
+     */
     public AccountHolder() {
         super.getRoles().add(new Role("HOLDER",this));
     }
-
+    /**
+     * Add HOLDER role on creation
+     */
     public AccountHolder(String username, String password, String name) {
         super(username, password, name);
         super.getRoles().add(new Role("HOLDER",this));
     }
-
+    /**
+     * Add HOLDER role on creation
+     */
     public AccountHolder(String username, String password, String name, LocalDate dateOfBirth, Address primaryAddress) {
         super(username, password, name);
         setDateOfBirth(dateOfBirth);
         setPrimaryAddress(primaryAddress);
         super.getRoles().add(new Role("HOLDER",this));
     }
-
+    /**
+     * Add HOLDER role on creation
+     */
     public AccountHolder(String username, String password, String name, LocalDate dateOfBirth, Address primaryAddress, Address mailingAddress) {
         super(username, password, name);
         setDateOfBirth(dateOfBirth);
