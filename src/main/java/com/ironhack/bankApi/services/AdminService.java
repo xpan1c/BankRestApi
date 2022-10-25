@@ -5,11 +5,14 @@ import com.ironhack.bankApi.controllers.DTOs.CreditCardDTO;
 import com.ironhack.bankApi.controllers.DTOs.SavingsDTO;
 import com.ironhack.bankApi.models.accounts.*;
 import com.ironhack.bankApi.models.users.AccountHolder;
+import com.ironhack.bankApi.models.users.ThirdParty;
 import com.ironhack.bankApi.models.users.User;
 import com.ironhack.bankApi.repositories.*;
 import com.ironhack.bankApi.services.interfaces.AdminServiceInterface;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -27,6 +30,15 @@ public class AdminService implements AdminServiceInterface {
     AccountHolderRepository accountHolderRepository;
     @Autowired
     AccountRepository accountRepository;
+    @Autowired
+    PasswordEncoder passwordEncoder;
+
+    public ThirdParty addThirdParty(ThirdParty thirdParty) {
+        thirdParty.setPassword(passwordEncoder.encode(thirdParty.getPassword()));
+        thirdParty.setHashedKey(passwordEncoder.encode(thirdParty.getUsername()));
+        return userRepository.save(thirdParty);
+    }
+
     public List<User> getAllUsers(){
         return userRepository.findAll();
     }
@@ -77,4 +89,11 @@ public class AdminService implements AdminServiceInterface {
         return accountRepository.save(savings);
     }
 
+    public void deleteAccount(Long id) {
+        if (accountRepository.findById(id).isPresent()) {
+            accountRepository.deleteById(id);
+        } else {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        }
+    }
 }

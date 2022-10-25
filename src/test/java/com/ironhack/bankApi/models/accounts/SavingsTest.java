@@ -1,4 +1,4 @@
-package com.ironhack.bankApi.models;
+package com.ironhack.bankApi.models.accounts;
 
 import com.ironhack.bankApi.models.accounts.Savings;
 import org.junit.jupiter.api.BeforeEach;
@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -51,5 +52,12 @@ public class SavingsTest {
         savings.setBalance(BigDecimal.valueOf(1020.00));
         savings.decreaseBalance(BigDecimal.valueOf(25.00));
         assertEquals(BigDecimal.valueOf(955.00).setScale(2),savings.getBalance().getAmount());
+    }
+    @Test
+    @DisplayName("Check addinterest OK")
+    void  addInterest(){
+        savings.setCreationDate(LocalDate.of(2020,10,24));
+        savings.addInterest();
+        assertEquals(BigDecimal.valueOf(1005.01),savings.getBalance().getAmount());
     }
 }

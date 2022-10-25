@@ -6,8 +6,11 @@ import lombok.Setter;
 
 import javax.persistence.Entity;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.LocalDate;
 import java.time.ZoneId;
+
+import static java.time.temporal.ChronoUnit.DAYS;
 
 @Entity
 //@PrimaryKeyJoinColumn(name = "sId")
@@ -22,6 +25,7 @@ public class Savings extends Account{
      * Default MinimumBalance 1000.00, default InterestRate 0.0025
      */
     public Savings() {
+        super.setBalance(BigDecimal.valueOf(1000.00));
         setMinimumBalance(BigDecimal.valueOf(1000.00));
         setInterestRate(BigDecimal.valueOf(0.0025));
         this.interestDate = super.getCreationDate();
@@ -30,6 +34,7 @@ public class Savings extends Account{
      * Set interest date to the creation date
      */
     public Savings(BigDecimal minimumBalance, BigDecimal interestRate) {
+        super.setBalance(minimumBalance);
         setMinimumBalance(minimumBalance);
         setInterestRate(interestRate);
         this.interestDate = super.getCreationDate();
@@ -68,6 +73,12 @@ public class Savings extends Account{
         }
     }
 
+    @Override
+    public void setCreationDate(LocalDate creationDate) {
+        super.setCreationDate(creationDate);
+        this.interestDate = creationDate;
+    }
+
     /**
      * Applies penalty fee
      * @param decrease amount to Decrease Balance
@@ -86,7 +97,9 @@ public class Savings extends Account{
     public void addInterest(){
         LocalDate localDate = LocalDate.now(ZoneId.of("Europe/Paris"));
         if(localDate.isAfter(this.getInterestDate().plusYears(1))){
-            super.increaseBalance(super.getBalance().getAmount().multiply(interestRate));
+            long days = DAYS.between(interestDate,localDate);
+            BigDecimal decrease = super.getBalance().getAmount().multiply(interestRate).divide(BigDecimal.valueOf(365),RoundingMode.HALF_EVEN);
+            super.increaseBalance(decrease.multiply(BigDecimal.valueOf(days)));
             this.setInterestDate(LocalDate.now(ZoneId.of("Europe/Paris")));
         }
     }

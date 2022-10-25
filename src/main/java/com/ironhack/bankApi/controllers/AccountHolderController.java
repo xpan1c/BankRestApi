@@ -24,7 +24,7 @@ public class AccountHolderController implements AccountHolderControllerInterface
     @PostMapping("/api/newAccountHolder")
     @ResponseStatus(HttpStatus.CREATED)
     public AccountHolder addAccountHolder(@Valid @RequestBody  AccountHolderDTO accountHolderDTO) {
-        return accountHolderService.addAccountHolder(accountHolderDTO.toAccountHolder());
+        return accountHolderService.addAccountHolder(accountHolderDTO);
     }
     /*
    @GetMapping("/api/accountHolder/{id}/getAccounts")

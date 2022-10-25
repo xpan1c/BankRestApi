@@ -6,8 +6,11 @@ import lombok.Setter;
 
 import javax.persistence.Entity;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.LocalDate;
 import java.time.ZoneId;
+
+import static java.time.temporal.ChronoUnit.DAYS;
 
 @Entity
 @Getter
@@ -35,7 +38,6 @@ public class CreditCard extends Account{
         setCreditLimit(creditLimit);
         setInterestRate(interestRate);
         setBalance(creditLimit);
-        this.interestDate = super.getCreationDate();
     }
     /**
      * Set interest date to the creation date
@@ -73,6 +75,12 @@ public class CreditCard extends Account{
 
     }
 
+    @Override
+    public void setCreationDate(LocalDate creationDate) {
+        super.setCreationDate(creationDate);
+        this.interestDate = creationDate;
+    }
+
     /**
      * You can't increase Balance more than credit limit.
      * @param increase amount to increase Balance
@@ -103,7 +111,10 @@ public class CreditCard extends Account{
     public void addInterest(){
         LocalDate localDate = LocalDate.now(ZoneId.of("Europe/Paris"));
         if(localDate.isAfter(this.interestDate.plusMonths(1))){
-            super.decreaseBalance(creditLimit.subtract(super.getBalance().getAmount()).multiply(interestRate));
+            long days = DAYS.between(interestDate,localDate);
+            BigDecimal decrease = creditLimit.subtract(super.getBalance().getAmount()).multiply(interestRate)
+                    .divide(BigDecimal.valueOf(30),RoundingMode.HALF_EVEN);
+            super.decreaseBalance(decrease.multiply(BigDecimal.valueOf(days)));
             this.setInterestDate(LocalDate.now(ZoneId.of("Europe/Paris")));
         }
     }

@@ -1,4 +1,4 @@
-package com.ironhack.bankApi.models;
+package com.ironhack.bankApi.models.accounts;
 
 import com.ironhack.bankApi.models.accounts.CreditCard;
 import org.junit.jupiter.api.BeforeEach;
@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -18,9 +19,10 @@ public class CreditCardTest {
         creditCard = new CreditCard();
     }
     @Test
-    @DisplayName("Check default penalty")
-    void penaltyDefault_OK(){
-        assertEquals(BigDecimal.valueOf(40.00),creditCard.getPenaltyFee());
+    @DisplayName("Check penalty OK")
+    void  penalty_OK(){
+        creditCard.decreaseBalance(BigDecimal.valueOf(100.00));
+        assertEquals(BigDecimal.valueOf(-40.00).setScale(2),creditCard.getBalance().getAmount());
     }
     @Test
     @DisplayName("Check default creditLimit & interesrate ")
@@ -47,6 +49,14 @@ public class CreditCardTest {
         assertEquals(BigDecimal.valueOf(0.2),creditCard.getInterestRate());
         assertThrows(IllegalArgumentException.class,() -> creditCard.setInterestRate(BigDecimal.valueOf(0.09)));
         assertThrows(IllegalArgumentException.class,() -> creditCard.setInterestRate(BigDecimal.valueOf(0.21)));
+    }
+    @Test
+    @DisplayName("Check addinterest OK")
+    void  addInterest(){
+        creditCard.decreaseBalance(BigDecimal.valueOf(20.00));
+        creditCard.setCreationDate(LocalDate.of(2022,9,24));
+        creditCard.addInterest();
+        assertEquals(BigDecimal.valueOf(75.88),creditCard.getBalance().getAmount());
     }
 
 }

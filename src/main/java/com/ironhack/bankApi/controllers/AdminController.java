@@ -2,11 +2,13 @@ package com.ironhack.bankApi.controllers;
 
 import com.ironhack.bankApi.controllers.DTOs.AccountDTO;
 import com.ironhack.bankApi.controllers.DTOs.CreditCardDTO;
+import com.ironhack.bankApi.controllers.DTOs.NewThirdPartyDTO;
 import com.ironhack.bankApi.controllers.DTOs.SavingsDTO;
 import com.ironhack.bankApi.controllers.interfaces.AdminControllerInterface;
 import com.ironhack.bankApi.models.accounts.Account;
 import com.ironhack.bankApi.models.accounts.CreditCard;
 import com.ironhack.bankApi.models.accounts.Savings;
+import com.ironhack.bankApi.models.users.ThirdParty;
 import com.ironhack.bankApi.models.users.User;
 import com.ironhack.bankApi.services.interfaces.AdminServiceInterface;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +23,12 @@ import java.util.List;
 public class AdminController implements AdminControllerInterface {
     @Autowired
     AdminServiceInterface adminService;
+    @PostMapping("/api/admin/newThirdParty")
+    @ResponseStatus(HttpStatus.CREATED)
+    public ThirdParty addThirdParty(NewThirdPartyDTO newThirdPartyDTO) {
+        return adminService.addThirdParty(newThirdPartyDTO.toThirdParty());
+    }
+
     @GetMapping("/api/admin/getUsers")
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
@@ -50,5 +58,10 @@ public class AdminController implements AdminControllerInterface {
         } catch (IllegalArgumentException e) {
             throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, "Out of limits", e);
         }
+    }
+    @DeleteMapping(path = "/api/admin/deleteAccount")
+    @ResponseStatus(HttpStatus.OK)
+    public void deleteAccount(@RequestParam Long id){
+        adminService.deleteAccount(id);
     }
 }

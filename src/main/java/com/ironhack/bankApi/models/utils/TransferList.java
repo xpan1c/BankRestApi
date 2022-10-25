@@ -8,6 +8,8 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 
 @Entity
 @Getter
@@ -26,12 +28,12 @@ public class TransferList {
     @JsonIgnore
     private Account to;
     private BigDecimal quantity;
+    private LocalDateTime currentOperation;
 
     public TransferList(Account from, Account to, BigDecimal quantity) {
         setFrom(from);
         setTo(to);
         setQuantity(quantity);
-        this.from.decreaseBalance(quantity);
-        this.to.increaseBalance(quantity);
+        this.currentOperation = LocalDateTime.now(ZoneId.of("Europe/Paris"));
     }
 }

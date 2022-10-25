@@ -1,7 +1,9 @@
 package com.ironhack.bankApi.services;
 
+import com.ironhack.bankApi.controllers.DTOs.AccountHolderDTO;
 import com.ironhack.bankApi.controllers.DTOs.AccountInformationDTO;
 import com.ironhack.bankApi.models.accounts.*;
+import com.ironhack.bankApi.models.enums.Status;
 import com.ironhack.bankApi.models.users.AccountHolder;
 import com.ironhack.bankApi.models.utils.Money;
 import com.ironhack.bankApi.models.utils.TransferList;
@@ -12,6 +14,7 @@ import com.ironhack.bankApi.repositories.UserRepository;
 import com.ironhack.bankApi.services.interfaces.AccountHolderServiceInterface;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -30,12 +33,16 @@ public class AccountHolderService implements AccountHolderServiceInterface {
     TransferListRepository transferListRepository;
     @Autowired
     UserRepository userRepository;
+    @Autowired
+    PasswordEncoder passwordEncoder;
 
     /**
-     * Create a new Account  Holder
+     * Create a new Account  Holder, and encrypt Password
      * @return Saved accountHolder
      */
-    public AccountHolder addAccountHolder(AccountHolder accountHolder) {
+    public AccountHolder addAccountHolder(AccountHolderDTO accountHolderDTO) {
+        AccountHolder accountHolder = accountHolderDTO.toAccountHolder();
+        accountHolder.setPassword(passwordEncoder.encode(accountHolderDTO.getPassword()));
         return accountHolderRepository.save(accountHolder);
     }
 
@@ -67,13 +74,21 @@ public class AccountHolderService implements AccountHolderServiceInterface {
     }
 
     public TransferList transference(String usernameFrom, Long fromId, Long toId, double quantity) {
+        BigDecimal amount = new BigDecimal(quantity);
         if(getAccounts(usernameFrom).stream().anyMatch(accountInformationDTO -> accountInformationDTO.getId() == fromId)){
             Account from = accountRepository.findById(fromId).orElseThrow(()-> new ResponseStatusException(HttpStatus.NOT_FOUND,"The sender  given id does not exist"));
             Account to = accountRepository.findById(toId).orElseThrow(()-> new ResponseStatusException(HttpStatus.NOT_FOUND,"A receiver given id does not exist" ));
-            TransferList transferList= new TransferList(from,to, BigDecimal.valueOf(quantity));
-            accountRepository.save(from);
-            accountRepository.save(to);
-            return transferListRepository.save(transferList);
+            if(from.getStatus().compareTo(Status.FROZEN) == 0) throw new ResponseStatusException(HttpStatus.FORBIDDEN,"This account is FROZEN");
+            if(from.getBalance().getAmount().compareTo(amount) >= 0){
+                TransferList transferList= new TransferList(from,to, amount);
+                from.decreaseBalance(amount);
+                to.increaseBalance(amount);
+                accountRepository.save(from);
+                accountRepository.save(to);
+                return transferListRepository.save(transferList);
+            }else{
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"Not enough founds");
+            }
         }else{
             throw  new ResponseStatusException(HttpStatus.FORBIDDEN,"It's not sender account id");
         }

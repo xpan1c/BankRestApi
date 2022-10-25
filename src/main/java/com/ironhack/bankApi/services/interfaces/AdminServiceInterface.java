@@ -2,15 +2,18 @@ package com.ironhack.bankApi.services.interfaces;
 
 import com.ironhack.bankApi.controllers.DTOs.AccountDTO;
 import com.ironhack.bankApi.controllers.DTOs.CreditCardDTO;
+import com.ironhack.bankApi.controllers.DTOs.NewThirdPartyDTO;
 import com.ironhack.bankApi.controllers.DTOs.SavingsDTO;
 import com.ironhack.bankApi.models.accounts.Account;
 import com.ironhack.bankApi.models.accounts.CreditCard;
 import com.ironhack.bankApi.models.accounts.Savings;
+import com.ironhack.bankApi.models.users.ThirdParty;
 import com.ironhack.bankApi.models.users.User;
 
 import java.util.List;
 
 public interface AdminServiceInterface {
+    ThirdParty addThirdParty(ThirdParty thirdParty);
     /**
      *
      * @return List of all users
@@ -37,4 +40,5 @@ public interface AdminServiceInterface {
      * @return
      */
     Savings addSavings(SavingsDTO savingsDTO);
+    void deleteAccount(Long id);
 }

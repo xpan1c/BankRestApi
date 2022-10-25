@@ -12,6 +12,13 @@ import javax.persistence.Entity;
 @NoArgsConstructor
 public class ThirdParty extends User{
     private String hashedKey;
+    /**
+     * Add THIRDPARTY role on creation
+     */
+    public ThirdParty(String username, String password, String name) {
+        super(username, password, name);
+        super.getRoles().add(new Role("THIRDPARTY",this));
+    }
 
     /**
      * Add THIRDPARTY role on creation

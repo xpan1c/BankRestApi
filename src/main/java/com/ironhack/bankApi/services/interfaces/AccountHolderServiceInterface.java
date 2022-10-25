@@ -1,5 +1,6 @@
 package com.ironhack.bankApi.services.interfaces;
 
+import com.ironhack.bankApi.controllers.DTOs.AccountHolderDTO;
 import com.ironhack.bankApi.controllers.DTOs.AccountInformationDTO;
 import com.ironhack.bankApi.models.users.AccountHolder;
 import com.ironhack.bankApi.models.utils.TransferList;
@@ -11,7 +12,7 @@ public interface AccountHolderServiceInterface {
      * Service to create a new Account  Holder
      * @return Saved accountHolder
      */
-    AccountHolder addAccountHolder(AccountHolder accountHolder);
+    AccountHolder addAccountHolder(AccountHolderDTO accountHolderDTO);
     /**
      * Service to get All username account.
      * @return A list of username's accounts.

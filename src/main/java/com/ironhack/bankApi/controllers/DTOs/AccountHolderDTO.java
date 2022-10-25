@@ -18,7 +18,6 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 public class AccountHolderDTO {
-    PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
     @NotEmpty
     private String username;
     @NotEmpty
@@ -40,7 +39,7 @@ public class AccountHolderDTO {
     }
 
     public AccountHolder toAccountHolder() {
-        AccountHolder holder = new AccountHolder(username,passwordEncoder.encode(password),name);
+        AccountHolder holder = new AccountHolder(username,password,name);
         holder.setDateOfBirth(dateOfBirth);
         holder.setPrimaryAddress(primaryAddress);
         holder.setMailingAddress(mailingAddress);

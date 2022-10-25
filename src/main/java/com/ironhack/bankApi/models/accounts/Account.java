@@ -8,8 +8,10 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.LocalDate;
 import java.time.ZoneId;
+import java.util.Objects;
 
 @Entity
 @Table(name = "accounts")
@@ -31,6 +33,7 @@ public abstract class Account {
     @ManyToOne//(cascade = CascadeType.ALL)
     @JoinColumn(name = "secondary_id")
     private AccountHolder secondaryOwner;
+    @Setter
     private BigDecimal penaltyFee;
     @Setter
     private LocalDate creationDate;
@@ -89,19 +92,6 @@ public abstract class Account {
         setStatus(Status.ACTIVE);
     }
 
-    /**
-     *
-     * @param penaltyFee Default 40.00
-     */
-
-    public void setPenaltyFee(BigDecimal penaltyFee) {
-        if(penaltyFee == null) {
-            this.penaltyFee = BigDecimal.valueOf(40.00);
-        }else {
-            this.penaltyFee = penaltyFee;
-        }
-    }
-
     public void setBalance(BigDecimal balance) {
         this.balance = new Money(balance);
     }
@@ -112,14 +102,14 @@ public abstract class Account {
      */
 
     public void decreaseBalance(BigDecimal decrease){
-        balance.decreaseAmount(decrease);
+        balance.decreaseAmount(decrease.setScale(2, RoundingMode.HALF_EVEN));
     }
     /**
      * Increase amount balance of this account
      * @param increase amount to increase Balance
      */
     public void increaseBalance(BigDecimal increase){
-        balance.increaseAmount(increase);
+        balance.increaseAmount(increase.setScale(2,RoundingMode.HALF_EVEN));
     }
 
 }

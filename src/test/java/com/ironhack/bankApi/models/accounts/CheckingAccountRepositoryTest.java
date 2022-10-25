@@ -1,4 +1,4 @@
-package com.ironhack.bankApi.models;
+package com.ironhack.bankApi.models.accounts;
 
 import com.ironhack.bankApi.models.accounts.CheckingAccount;
 import org.junit.jupiter.api.BeforeEach;
@@ -28,6 +28,21 @@ public class CheckingAccountRepositoryTest {
         assertEquals(BigDecimal.valueOf(250.00),checkingAccount.getMinimumBalance());
         assertEquals(BigDecimal.valueOf(12.00),checkingAccount.getMonthlyMaintenanceFee());
     }
+    @Test
+    @DisplayName("check if increase balance method works")
+    void increaseBalance_OK(){
+        checkingAccount.setBalance(BigDecimal.valueOf(270.00));
+        checkingAccount.increaseBalance(BigDecimal.valueOf(25.00));
+        assertEquals(BigDecimal.valueOf(295.00).setScale(2),checkingAccount.getBalance().getAmount());
+    }
+    @Test
+    @DisplayName("check if decrease balance method works")
+    void decreaseBalance_OK(){
+        checkingAccount.setBalance(BigDecimal.valueOf(270.00));
+        checkingAccount.decreaseBalance(BigDecimal.valueOf(5.00));
+        assertEquals(BigDecimal.valueOf(265.00).setScale(2),checkingAccount.getBalance().getAmount());
+    }
+
     @Test
     @DisplayName("check if penalty applies when balance is less than minimum balance")
     void penaltyApplies_OK(){

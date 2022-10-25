@@ -37,6 +37,7 @@ public class AccountHolder extends User {
     public AccountHolder() {
         super.getRoles().add(new Role("HOLDER",this));
     }
+
     /**
      * Add HOLDER role on creation
      */
@@ -63,6 +64,4 @@ public class AccountHolder extends User {
         setMailingAddress(mailingAddress);
         super.getRoles().add(new Role("HOLDER",this));
     }
-
-
 }
