@@ -34,9 +34,11 @@ public class SecurityConfiguration {
                 .mvcMatchers(HttpMethod.GET, "/api/accountHolder/**").hasAnyRole("HOLDER","ADMIN")
                 .mvcMatchers(HttpMethod.POST, "/api/accountHolder/**").hasAnyRole("HOLDER","ADMIN")
                 .mvcMatchers(HttpMethod.GET,"/api/admin/**").hasRole("ADMIN")
+                .mvcMatchers(HttpMethod.POST,"/api/admin/**").hasRole("ADMIN")
+                .mvcMatchers(HttpMethod.DELETE,"/api/admin/**").hasRole("ADMIN")
+                .mvcMatchers(HttpMethod.PUT,"/api/thirdAccount/**").hasAnyRole("THIRDPARTY","ADMIN")
                 .anyRequest().permitAll();
         httpSecurity.csrf().disable();
         return httpSecurity.build();
     }
-
 }

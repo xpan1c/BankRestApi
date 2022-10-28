@@ -51,30 +51,6 @@ public class AccountDTO {
 
     }
     /**
-     * Constructor for test uses.
-     */
-    public AccountDTO(Double balance, int secretKey, Long primaryOwner, Double minimumBalance, Double monthlyMaintenanceFee) {
-        setBalance(balance);
-        setSecretKey(secretKey);
-        setPrimaryOwner(primaryOwner);
-        setMinimumBalance(minimumBalance);
-        setMonthlyMaintenanceFee(monthlyMaintenanceFee);
-    }
-    /**
-     * Constructor for test uses.
-     */
-    public AccountDTO(Double balance, int secretKey, Long primaryOwner, Double penaltyFee, Double minimumBalance, Double monthlyMaintenanceFee) {
-        setBalance(balance);
-        setSecretKey(secretKey);
-        setPrimaryOwner(primaryOwner);
-        setMinimumBalance(minimumBalance);
-        setMonthlyMaintenanceFee(monthlyMaintenanceFee);
-        setPenaltyFee(penaltyFee);
-    }
-
-
-
-    /**
      * Method to convert to a StudentCheckingAccount
      * @return StudentCheckingAccount
      */
@@ -82,7 +58,8 @@ public class AccountDTO {
         StudentCheckingAccount studentCheckingAccount = new StudentCheckingAccount();
         studentCheckingAccount.setBalance(BigDecimal.valueOf(balance).setScale(2,RoundingMode.HALF_EVEN));
         studentCheckingAccount.setSecretKey(secretKey);
-        studentCheckingAccount.setPenaltyFee(BigDecimal.valueOf(Objects.requireNonNullElse(penaltyFee, 40.00)).setScale(2,RoundingMode.HALF_EVEN));
+        studentCheckingAccount.setPenaltyFee(BigDecimal.valueOf(Objects.requireNonNullElse(penaltyFee, 40.00))
+                .setScale(2,RoundingMode.HALF_EVEN));
         return studentCheckingAccount;
     }
 
@@ -94,9 +71,12 @@ public class AccountDTO {
         CheckingAccount checkingAccount = new CheckingAccount();
         checkingAccount.setBalance(BigDecimal.valueOf(balance).setScale(2,RoundingMode.HALF_EVEN));
         checkingAccount.setSecretKey(secretKey);
-        checkingAccount.setMinimumBalance(BigDecimal.valueOf(Objects.requireNonNullElse(minimumBalance, 250.00)).setScale(2,RoundingMode.HALF_EVEN));
-        checkingAccount.setMonthlyMaintenanceFee(BigDecimal.valueOf(Objects.requireNonNullElse(monthlyMaintenanceFee, 12.00)).setScale(2,RoundingMode.HALF_EVEN));
-        checkingAccount.setPenaltyFee(BigDecimal.valueOf(Objects.requireNonNullElse(penaltyFee, 40.00)).setScale(2,RoundingMode.HALF_EVEN));
+        checkingAccount.setMinimumBalance(BigDecimal.valueOf(Objects.requireNonNullElse(minimumBalance, 250.00))
+                .setScale(2,RoundingMode.HALF_EVEN));
+        checkingAccount.setMonthlyMaintenanceFee(BigDecimal.valueOf(Objects.requireNonNullElse(monthlyMaintenanceFee, 12.00))
+                        .setScale(2,RoundingMode.HALF_EVEN));
+        checkingAccount.setPenaltyFee(BigDecimal.valueOf(Objects.requireNonNullElse(penaltyFee, 40.00))
+                .setScale(2,RoundingMode.HALF_EVEN));
         return checkingAccount;
     }
 }

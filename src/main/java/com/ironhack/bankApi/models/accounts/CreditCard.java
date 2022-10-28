@@ -38,6 +38,7 @@ public class CreditCard extends Account{
         setCreditLimit(creditLimit);
         setInterestRate(interestRate);
         setBalance(creditLimit);
+        this.interestDate = super.getCreationDate();
     }
     /**
      * Set interest date to the creation date
@@ -55,7 +56,8 @@ public class CreditCard extends Account{
      * @param creditLimit It has to be between 100.00 and 100000
      */
     public void setCreditLimit(BigDecimal creditLimit) {
-        if( creditLimit.compareTo(BigDecimal.valueOf(100.00)) >= 0 & creditLimit.compareTo(BigDecimal.valueOf(100000.00)) <= 0) {
+        if( creditLimit.compareTo(BigDecimal.valueOf(100.00)) >= 0
+                & creditLimit.compareTo(BigDecimal.valueOf(100000.00)) <= 0) {
             this.creditLimit = creditLimit;
         }else {
             throw new IllegalArgumentException("Credit limit must be between 100 and 100000");
@@ -67,7 +69,8 @@ public class CreditCard extends Account{
      * @param interestRate It has to be between 0.1 - 0.2
      */
     public void setInterestRate(BigDecimal interestRate) {
-        if( interestRate.compareTo(BigDecimal.valueOf(0.1)) >= 0 & interestRate.compareTo(BigDecimal.valueOf(0.2)) <= 0) {
+        if( interestRate.compareTo(BigDecimal.valueOf(0.1)) >= 0
+                & interestRate.compareTo(BigDecimal.valueOf(0.2)) <= 0) {
             this.interestRate = interestRate;
         }else {
             throw new IllegalArgumentException("Interes rate must be between 0.1 and 0.2");
@@ -90,7 +93,8 @@ public class CreditCard extends Account{
         if(increase.add(this.getBalance().getAmount()).compareTo(this.getCreditLimit()) <= 0) {
             super.increaseBalance(increase);
         }else{
-            throw new IllegalArgumentException("You can't transfer more than "+ creditLimit.subtract(this.getBalance().getAmount())+".");
+            throw new IllegalArgumentException("You can't transfer more than "
+                    + creditLimit.subtract(this.getBalance().getAmount())+".");
         }
     }
 

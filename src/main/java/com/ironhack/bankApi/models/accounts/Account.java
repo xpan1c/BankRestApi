@@ -81,7 +81,7 @@ public abstract class Account {
     }
     /**
      * Set creation date at this time. Default Status Active
-     */
+
     public Account(BigDecimal balance, int secretKey, AccountHolder primaryOwner, AccountHolder secondaryOwner, BigDecimal penaltyFee) {
         setBalance(balance);
         setSecretKey(secretKey);
@@ -91,7 +91,7 @@ public abstract class Account {
         setCreationDate(LocalDate.now(ZoneId.of("Europe/Paris")));
         setStatus(Status.ACTIVE);
     }
-
+    */
     public void setBalance(BigDecimal balance) {
         this.balance = new Money(balance);
     }

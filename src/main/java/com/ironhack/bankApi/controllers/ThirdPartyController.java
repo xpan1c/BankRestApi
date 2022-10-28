@@ -20,9 +20,9 @@ public class ThirdPartyController implements ThirdPartyControllerInterface {
     public TransferList requestMoneyToAccount(@AuthenticationPrincipal UserDetails userDetails, @RequestHeader String hashKey, @RequestBody MoneyToAccountDTO moneyToAccountDTO){
         return thirdPartyService.requestMoneyToAccount(userDetails.getUsername(),hashKey,moneyToAccountDTO);
     }
-    @PutMapping("/api/thirdAccount/requestMoney")
+    @PutMapping("/api/thirdAccount/sendMoney")
     @ResponseStatus(HttpStatus.OK)
-    public TransferList sendMoneyToAccount(UserDetails userDetails, String hashKey, MoneyToAccountDTO moneyToAccountDTO) {
+    public TransferList sendMoneyToAccount(@AuthenticationPrincipal UserDetails userDetails,@RequestHeader String hashKey,@RequestBody MoneyToAccountDTO moneyToAccountDTO) {
         return thirdPartyService.sendMoneyToAccount(userDetails.getUsername(),hashKey,moneyToAccountDTO);
     }
 }

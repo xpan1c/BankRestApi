@@ -125,7 +125,10 @@ SavingsRepository savingsRepository;
     @DisplayName("Test find All users")
     void findAllUsers_OK() throws Exception {
         Address primaryAddress = new Address("Calle falsa", 123, "08211","Cuenca");
-        AccountHolderDTO accountHolder = new AccountHolderDTO("abc","12345", "Juan Pablo", LocalDate.of(1990,10,10),primaryAddress);
+        LocalDate birthDay = LocalDate.of(1990,10,10);
+        AccountHolderDTO accountHolder = new AccountHolderDTO("abc","12345", "Juan Pablo");
+        accountHolder.setDateOfBirth(birthDay);
+        accountHolder.setPrimaryAddress(primaryAddress);
         String body = objectMapper.writeValueAsString(accountHolder);
         System.err.println(body);
 

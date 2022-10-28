@@ -44,20 +44,12 @@ public class AdminController implements AdminControllerInterface {
     @PostMapping("/api/admin/newCreditCard")
     @ResponseStatus(HttpStatus.CREATED)
     public CreditCard addCreditCard(@Valid @RequestBody CreditCardDTO creditCardDTO) {
-        try {
             return adminService.addCreditCard(creditCardDTO);
-        } catch (RuntimeException e) {
-            throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, "Out of limits", e);
-        }
     }
     @PostMapping("/api/admin/newSavings")
     @ResponseStatus(HttpStatus.CREATED)
     public Savings addSavings(@Valid @RequestBody SavingsDTO savingsDTO) {
-        try {
             return adminService.addSavings(savingsDTO);
-        } catch (IllegalArgumentException e) {
-            throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, "Out of limits", e);
-        }
     }
     @DeleteMapping(path = "/api/admin/deleteAccount")
     @ResponseStatus(HttpStatus.OK)

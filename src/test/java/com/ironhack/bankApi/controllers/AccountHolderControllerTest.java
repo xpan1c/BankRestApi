@@ -36,20 +36,32 @@ public class AccountHolderControllerTest {
             .registerModule(new ParameterNamesModule())
             .registerModule(new Jdk8Module())
             .registerModule(new JavaTimeModule());
+    private Address primaryAddress;
+    private LocalDate birthDay;
+    private AccountHolderDTO accountHolder;
 
     @BeforeEach
     public void setUp(){
         mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
+        primaryAddress = new Address("Calle falsa", 123, "08211","Cuenca");
+        birthDay = LocalDate.of(1990,10,10);
+        accountHolder = new AccountHolderDTO("abc","12345", "Juan Pablo");
+        accountHolder.setDateOfBirth(birthDay);
+        accountHolder.setPrimaryAddress(primaryAddress);
     }
     @Test
     @DisplayName("Check if Account Holder is created correctly")
     void post_AccountHolder_isCreated() throws Exception {
-        Address primaryAddress = new Address("Calle falsa", 123, "08211","Cuenca");
-        AccountHolderDTO accountHolder = new AccountHolderDTO("abc","12345", "Juan Pablo", LocalDate.of(1990,10,10),primaryAddress);
+        accountHolder.setUsername("admin");
         String body = objectMapper.writeValueAsString(accountHolder);
         System.err.println(body);
-
-        MvcResult mvcResult = mockMvc.perform(post("/api/newAccountHolder").content(body).contentType(MediaType.APPLICATION_JSON)).andExpect(status().isCreated()).andReturn();
-        assertTrue(accountHolderRepository.findById(2L).isPresent());
+        MvcResult mvcResult = mockMvc.perform(post("/api/newAccountHolder").content(body)
+                .contentType(MediaType.APPLICATION_JSON)).andExpect(status().isBadRequest()).andReturn();
+        accountHolder.setMailingAddress(primaryAddress);
+        accountHolder.setUsername("abc");
+        body = objectMapper.writeValueAsString(accountHolder);
+        MvcResult mvcResult1 = mockMvc.perform(post("/api/newAccountHolder").content(body)
+                .contentType(MediaType.APPLICATION_JSON)).andExpect(status().isCreated()).andReturn();
+        assertTrue(accountHolderRepository.findByUsername("abc").isPresent());
     }
 }

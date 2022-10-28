@@ -26,14 +26,6 @@ public class AccountHolderController implements AccountHolderControllerInterface
     public AccountHolder addAccountHolder(@Valid @RequestBody  AccountHolderDTO accountHolderDTO) {
         return accountHolderService.addAccountHolder(accountHolderDTO);
     }
-    /*
-   @GetMapping("/api/accountHolder/{id}/getAccounts")
-    @ResponseStatus(HttpStatus.OK)
-    @ResponseBody
-    public List<AccountInformationDTO> getAccounts(@PathVariable Long id){
-        return accountHolderService.getAccounts(id);
-    }
-     */
     @GetMapping("/api/accountHolder/getAccounts")
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
@@ -41,17 +33,10 @@ public class AccountHolderController implements AccountHolderControllerInterface
 
         return accountHolderService.getAccounts(userDetails.getUsername());
     }
-
-
     @PostMapping("/api/accountHolder/transference")
     @ResponseStatus(HttpStatus.OK)
     public TransferList transference(@AuthenticationPrincipal UserDetails userDetails, @RequestParam Long from,@RequestParam Long to, @RequestParam double quantity){
-        try {
             return accountHolderService.transference(userDetails.getUsername(),from,to,quantity);
-        }catch (IllegalArgumentException e){
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Transfer did not take place, "+ e );
-        }
-
     }
 
 }

@@ -47,31 +47,6 @@ public class CreditCardDTO {
         setPrimaryOwner(primaryOwner);
     }
 
-    /**
-     * Constructor for test uses.
-     */
-    public CreditCardDTO(int secretKey, Long primaryOwner, Double penaltyFee) {
-        setSecretKey(secretKey);
-        setPrimaryOwner(primaryOwner);
-        setPenaltyFee(penaltyFee);
-    }
-    /**
-     * Constructor for test uses.
-     */
-    public CreditCardDTO(int secretKey, Long primaryOwner, Double penaltyFee,Double creditLimit) {
-        setSecretKey(secretKey);
-        setPrimaryOwner(primaryOwner);
-        setPenaltyFee(penaltyFee);
-        setCreditLimit(creditLimit);
-    }
-    public CreditCardDTO(int secretKey, Long primaryOwner, Double penaltyFee,Double creditLimit, Double interestRate) {
-        setSecretKey(secretKey);
-        setPrimaryOwner(primaryOwner);
-        setPenaltyFee(penaltyFee);
-        setCreditLimit(creditLimit);
-        setInterestRate(interestRate);
-    }
-
     public CreditCard toCreditCard(){
         BigDecimal penaltyFee = BigDecimal.valueOf(Objects.requireNonNullElse(this.penaltyFee, 40.00)).setScale(2,RoundingMode.HALF_EVEN);
         BigDecimal interestRate = BigDecimal.valueOf(Objects.requireNonNullElse(this.interestRate, 0.20)).setScale(2,RoundingMode.HALF_EVEN);

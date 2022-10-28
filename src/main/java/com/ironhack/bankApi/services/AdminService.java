@@ -70,23 +70,33 @@ public class AdminService implements AdminServiceInterface {
     public CreditCard addCreditCard(CreditCardDTO creditCardDTO) {
         AccountHolder primaryOwner = accountHolderRepository.findById(creditCardDTO.getPrimaryOwner()).orElseThrow(()->
                 new ResponseStatusException(HttpStatus.NOT_FOUND));
-        CreditCard creditCard = creditCardDTO.toCreditCard();
-        creditCard.setPrimaryOwner(primaryOwner);
-        if(creditCardDTO.getSecondaryOwner() != null) {
-            creditCard.setSecondaryOwner(accountHolderRepository.findById(creditCardDTO.getSecondaryOwner()).get());
+        try {
+            CreditCard creditCard = creditCardDTO.toCreditCard();
+            creditCard.setPrimaryOwner(primaryOwner);
+            if(creditCardDTO.getSecondaryOwner() != null) {
+                creditCard.setSecondaryOwner(accountHolderRepository.findById(creditCardDTO.getSecondaryOwner()).get());
+            }
+            return accountRepository.save(creditCard);
+        }catch (IllegalArgumentException e){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"Out of limits",e);
         }
-        return accountRepository.save(creditCard);
+
     }
 
     public Savings addSavings(SavingsDTO savingsDTO) {
         AccountHolder primaryOwner = accountHolderRepository.findById(savingsDTO.getPrimaryOwner()).orElseThrow(()->
                 new ResponseStatusException(HttpStatus.NOT_FOUND));
-        Savings savings = savingsDTO.toSavings();
-        savings.setPrimaryOwner(primaryOwner);
-        if(savingsDTO.getSecondaryOwner() != null) {
-            savings.setSecondaryOwner(accountHolderRepository.findById(savingsDTO.getSecondaryOwner()).get());
+        try {
+            Savings savings = savingsDTO.toSavings();
+            savings.setPrimaryOwner(primaryOwner);
+            if(savingsDTO.getSecondaryOwner() != null) {
+                savings.setSecondaryOwner(accountHolderRepository.findById(savingsDTO.getSecondaryOwner()).get());
+            }
+            return accountRepository.save(savings);
+        }catch (IllegalArgumentException e){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"Out of limits",e);
         }
-        return accountRepository.save(savings);
+
     }
 
     public void deleteAccount(Long id) {

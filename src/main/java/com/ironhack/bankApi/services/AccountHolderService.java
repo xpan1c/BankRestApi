@@ -41,6 +41,9 @@ public class AccountHolderService implements AccountHolderServiceInterface {
      * @return Saved accountHolder
      */
     public AccountHolder addAccountHolder(AccountHolderDTO accountHolderDTO) {
+        if(userRepository.findByUsername(accountHolderDTO.getUsername()).isPresent()){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"This username already exist");
+        }
         AccountHolder accountHolder = accountHolderDTO.toAccountHolder();
         accountHolder.setPassword(passwordEncoder.encode(accountHolderDTO.getPassword()));
         return accountHolderRepository.save(accountHolder);
@@ -76,16 +79,24 @@ public class AccountHolderService implements AccountHolderServiceInterface {
     public TransferList transference(String usernameFrom, Long fromId, Long toId, double quantity) {
         BigDecimal amount = new BigDecimal(quantity);
         if(getAccounts(usernameFrom).stream().anyMatch(accountInformationDTO -> accountInformationDTO.getId() == fromId)){
-            Account from = accountRepository.findById(fromId).orElseThrow(()-> new ResponseStatusException(HttpStatus.NOT_FOUND,"The sender  given id does not exist"));
-            Account to = accountRepository.findById(toId).orElseThrow(()-> new ResponseStatusException(HttpStatus.NOT_FOUND,"A receiver given id does not exist" ));
-            if(from.getStatus().compareTo(Status.FROZEN) == 0) throw new ResponseStatusException(HttpStatus.FORBIDDEN,"This account is FROZEN");
+            Account from = accountRepository.findById(fromId).orElseThrow(()->
+                    new ResponseStatusException(HttpStatus.NOT_FOUND,"The sender  given id does not exist"));
+            Account to = accountRepository.findById(toId).orElseThrow(()->
+                    new ResponseStatusException(HttpStatus.NOT_FOUND,"A receiver given id does not exist" ));
+            if(from.getStatus().compareTo(Status.FROZEN) == 0)
+                throw new ResponseStatusException(HttpStatus.FORBIDDEN,"This account is FROZEN");
             if(from.getBalance().getAmount().compareTo(amount) >= 0){
+                try{
                 TransferList transferList= new TransferList(from,to, amount);
                 from.decreaseBalance(amount);
                 to.increaseBalance(amount);
                 accountRepository.save(from);
                 accountRepository.save(to);
                 return transferListRepository.save(transferList);
+                }catch (IllegalArgumentException e){
+                    throw new ResponseStatusException(HttpStatus.FORBIDDEN,"Transfer did not take place",e);
+                }
+
             }else{
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"Not enough founds");
             }

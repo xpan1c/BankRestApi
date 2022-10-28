@@ -35,37 +35,4 @@ public class AccountInformationDTO {
         this.balance = balance;
     }
 
-    public AccountInformationDTO(Long id, String accountType, String balance, String secretKey, String primaryOwner, String secondaryOwner, String penaltyFee, String status) {
-        this.id = id;
-        this.accountType = accountType;
-        this.balance = balance;
-        this.secretKey = secretKey;
-        this.primaryOwner = primaryOwner;
-        this.secondaryOwner = secondaryOwner;
-        this.penaltyFee = penaltyFee;
-        this.status = status;
-    }
-    public AccountInformationDTO(Long id, String accountType, String balance, String secretKey, String primaryOwner, String secondaryOwner, String minimumBalance, String penaltyFee,  String status) {
-        this.id = id;
-        this.accountType = accountType;
-        this.balance = balance;
-        this.secretKey = secretKey;
-        this.primaryOwner = primaryOwner;
-        this.secondaryOwner = secondaryOwner;
-        this.minimumBalance = minimumBalance;
-        this.penaltyFee = penaltyFee;
-        this.status = status;
-    }
-    public AccountInformationDTO(Long id, String accountType, String balance, String secretKey, String primaryOwner, String secondaryOwner, String minimumBalance, String penaltyFee, String monthlyMaintenanceFee, String status) {
-        this.id = id;
-        this.accountType = accountType;
-        this.balance = balance;
-        this.secretKey = secretKey;
-        this.primaryOwner = primaryOwner;
-        this.secondaryOwner = secondaryOwner;
-        this.minimumBalance = minimumBalance;
-        this.penaltyFee = penaltyFee;
-        this.monthlyMaintenanceFee = monthlyMaintenanceFee;
-        this.status = status;
-    }
 }

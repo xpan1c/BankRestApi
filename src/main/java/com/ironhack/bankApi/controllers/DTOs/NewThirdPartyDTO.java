@@ -1,16 +1,10 @@
 package com.ironhack.bankApi.controllers.DTOs;
 
 import com.ironhack.bankApi.models.users.ThirdParty;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.validation.constraints.NotEmpty;
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
+@Data
 public class NewThirdPartyDTO {
     @NotEmpty
     private String username;

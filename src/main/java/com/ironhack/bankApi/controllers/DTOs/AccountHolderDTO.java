@@ -30,12 +30,10 @@ public class AccountHolderDTO {
     private Address primaryAddress;
     private Address mailingAddress;
 
-    public AccountHolderDTO(String username, String password, String name, LocalDate dateOfBirth, Address primaryAddress) {
+    public AccountHolderDTO(String username, String password, String name) {
         this.username = username;
         this.password = password;
         this.name = name;
-        this.dateOfBirth = dateOfBirth;
-        this.primaryAddress = primaryAddress;
     }
 
     public AccountHolder toAccountHolder() {
