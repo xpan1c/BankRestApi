@@ -15,12 +15,12 @@ import org.springframework.web.bind.annotation.*;
 public class ThirdPartyController implements ThirdPartyControllerInterface {
     @Autowired
     ThirdPartyServiceInterface thirdPartyService;
-    @PutMapping("/api/thirdAccount/requestMoney")
+    @PutMapping("/api/v1/thirdAccount/requestMoney")
     @ResponseStatus(HttpStatus.OK)
     public TransferList requestMoneyToAccount(@AuthenticationPrincipal UserDetails userDetails, @RequestHeader String hashKey, @RequestBody MoneyToAccountDTO moneyToAccountDTO){
         return thirdPartyService.requestMoneyToAccount(userDetails.getUsername(),hashKey,moneyToAccountDTO);
     }
-    @PutMapping("/api/thirdAccount/sendMoney")
+    @PutMapping("/api/v1/thirdAccount/sendMoney")
     @ResponseStatus(HttpStatus.OK)
     public TransferList sendMoneyToAccount(@AuthenticationPrincipal UserDetails userDetails,@RequestHeader String hashKey,@RequestBody MoneyToAccountDTO moneyToAccountDTO) {
         return thirdPartyService.sendMoneyToAccount(userDetails.getUsername(),hashKey,moneyToAccountDTO);

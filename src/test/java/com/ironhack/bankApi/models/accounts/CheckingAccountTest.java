@@ -1,6 +1,5 @@
 package com.ironhack.bankApi.models.accounts;
 
-import com.ironhack.bankApi.models.accounts.CheckingAccount;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -11,7 +10,7 @@ import java.math.BigDecimal;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest
-public class CheckingAccountRepositoryTest {
+public class CheckingAccountTest {
     CheckingAccount checkingAccount;
     @BeforeEach
     void setUp(){

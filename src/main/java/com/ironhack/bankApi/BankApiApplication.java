@@ -19,9 +19,7 @@ public class BankApiApplication implements CommandLineRunner {
 	PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
 
-	public static void main(String[] args) {
-		SpringApplication.run(BankApiApplication.class, args);
-	}
+	public static void main(String[] args) {SpringApplication.run(BankApiApplication.class, args);}
 
 	@Override
 	public void run(String... args) throws Exception {

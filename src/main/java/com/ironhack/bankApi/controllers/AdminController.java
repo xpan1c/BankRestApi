@@ -23,35 +23,35 @@ import java.util.List;
 public class AdminController implements AdminControllerInterface {
     @Autowired
     AdminServiceInterface adminService;
-    @PostMapping("/api/admin/newThirdParty")
+    @PostMapping("/api/v1/admin/newThirdParty")
     @ResponseStatus(HttpStatus.CREATED)
     public ThirdParty addThirdParty(NewThirdPartyDTO newThirdPartyDTO) {
         return adminService.addThirdParty(newThirdPartyDTO.toThirdParty());
     }
 
-    @GetMapping("/api/admin/getUsers")
+    @GetMapping("/api/v1/admin/getUsers")
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
     public List<User> getAllUsers(){
         return adminService.getAllUsers();
     }
 
-    @PostMapping("/api/admin/newCheckingAccount")
+    @PostMapping("/api/v1/admin/newCheckingAccount")
     @ResponseStatus(HttpStatus.CREATED)
     public Account addCheckingAccount(@Valid @RequestBody AccountDTO accountDTO) {
         return adminService.addCheckingAccount(accountDTO);
     }
-    @PostMapping("/api/admin/newCreditCard")
+    @PostMapping("/api/v1/admin/newCreditCard")
     @ResponseStatus(HttpStatus.CREATED)
     public CreditCard addCreditCard(@Valid @RequestBody CreditCardDTO creditCardDTO) {
             return adminService.addCreditCard(creditCardDTO);
     }
-    @PostMapping("/api/admin/newSavings")
+    @PostMapping("/api/v1/admin/newSavings")
     @ResponseStatus(HttpStatus.CREATED)
     public Savings addSavings(@Valid @RequestBody SavingsDTO savingsDTO) {
             return adminService.addSavings(savingsDTO);
     }
-    @DeleteMapping(path = "/api/admin/deleteAccount")
+    @DeleteMapping(path = "/api/v1/admin/deleteAccount")
     @ResponseStatus(HttpStatus.OK)
     public void deleteAccount(@RequestParam Long id){
         adminService.deleteAccount(id);

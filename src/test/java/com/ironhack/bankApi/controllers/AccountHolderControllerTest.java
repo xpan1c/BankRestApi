@@ -12,7 +12,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
@@ -37,31 +36,53 @@ public class AccountHolderControllerTest {
             .registerModule(new Jdk8Module())
             .registerModule(new JavaTimeModule());
     private Address primaryAddress;
-    private LocalDate birthDay;
     private AccountHolderDTO accountHolder;
 
     @BeforeEach
     public void setUp(){
         mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
-        primaryAddress = new Address("Calle falsa", 123, "08211","Cuenca");
-        birthDay = LocalDate.of(1990,10,10);
-        accountHolder = new AccountHolderDTO("abc","12345", "Juan Pablo");
+        primaryAddress = new Address(
+                "Calle falsa",
+                123,
+                "08211",
+                "Cuenca"
+        );
+        LocalDate birthDay = LocalDate.of(
+                1990,
+                10,
+                10
+        );
+        accountHolder = new AccountHolderDTO(
+                "abc",
+                "12345",
+                "Juan Pablo"
+        );
         accountHolder.setDateOfBirth(birthDay);
         accountHolder.setPrimaryAddress(primaryAddress);
     }
+    /*
+        200 when user is created
+     */
     @Test
     @DisplayName("Check if Account Holder is created correctly")
-    void post_AccountHolder_isCreated() throws Exception {
+    void should_return_200_when_AccountHolder_isCreated() throws Exception {
         accountHolder.setUsername("admin");
         String body = objectMapper.writeValueAsString(accountHolder);
         System.err.println(body);
-        MvcResult mvcResult = mockMvc.perform(post("/api/newAccountHolder").content(body)
-                .contentType(MediaType.APPLICATION_JSON)).andExpect(status().isBadRequest()).andReturn();
+        MvcResult mvcResult = mockMvc
+                .perform(post("/api/newAccountHolder")
+                        .content(body)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isBadRequest()).andReturn();
         accountHolder.setMailingAddress(primaryAddress);
         accountHolder.setUsername("abc");
         body = objectMapper.writeValueAsString(accountHolder);
-        MvcResult mvcResult1 = mockMvc.perform(post("/api/newAccountHolder").content(body)
-                .contentType(MediaType.APPLICATION_JSON)).andExpect(status().isCreated()).andReturn();
+        MvcResult mvcResult1 = mockMvc
+                .perform(post("/api/newAccountHolder")
+                        .content(body)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isCreated())
+                .andReturn();
         assertTrue(accountHolderRepository.findByUsername("abc").isPresent());
     }
 }

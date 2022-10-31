@@ -21,19 +21,19 @@ public class AccountHolderController implements AccountHolderControllerInterface
     @Autowired
     AccountHolderServiceInterface accountHolderService;
 
-    @PostMapping("/api/newAccountHolder")
+    @PostMapping("/api/v1/newAccountHolder")
     @ResponseStatus(HttpStatus.CREATED)
     public AccountHolder addAccountHolder(@Valid @RequestBody  AccountHolderDTO accountHolderDTO) {
         return accountHolderService.addAccountHolder(accountHolderDTO);
     }
-    @GetMapping("/api/accountHolder/getAccounts")
+    @GetMapping("/api/v1/accountHolder/getAccounts")
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
     public List<AccountInformationDTO> getAccounts(@AuthenticationPrincipal UserDetails userDetails){
 
         return accountHolderService.getAccounts(userDetails.getUsername());
     }
-    @PostMapping("/api/accountHolder/transference")
+    @PostMapping("/api/v1/accountHolder/transference")
     @ResponseStatus(HttpStatus.OK)
     public TransferList transference(@AuthenticationPrincipal UserDetails userDetails, @RequestParam Long from,@RequestParam Long to, @RequestParam double quantity){
             return accountHolderService.transference(userDetails.getUsername(),from,to,quantity);
