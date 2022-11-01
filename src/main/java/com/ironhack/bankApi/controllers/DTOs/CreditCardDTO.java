@@ -14,6 +14,8 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.Objects;
 
+import static java.math.RoundingMode.*;
+
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
@@ -47,10 +49,28 @@ public class CreditCardDTO {
         setPrimaryOwner(primaryOwner);
     }
 
+    /*
     public CreditCard toCreditCard(){
         BigDecimal penaltyFee = BigDecimal.valueOf(Objects.requireNonNullElse(this.penaltyFee, 40.00)).setScale(2,RoundingMode.HALF_EVEN);
         BigDecimal interestRate = BigDecimal.valueOf(Objects.requireNonNullElse(this.interestRate, 0.20)).setScale(2,RoundingMode.HALF_EVEN);
         BigDecimal creditLimit = BigDecimal.valueOf(Objects.requireNonNullElse(this.creditLimit, 100.00)).setScale(2,RoundingMode.HALF_EVEN);
         return new CreditCard(secretKey,penaltyFee,creditLimit,interestRate);
+    }
+     */
+    public CreditCard toCreditCard(){
+        CreditCard creditCard = new CreditCard();
+        creditCard.setPenaltyFee(BigDecimal.valueOf
+                (Objects.requireNonNullElse(
+                        this.penaltyFee, 40.0
+                )));
+        creditCard.setInterestRate(BigDecimal.valueOf
+                (Objects.requireNonNullElse
+                        (this.interestRate, 0.2)
+                ));
+        creditCard.setCreditLimit(BigDecimal.valueOf
+                (Objects.requireNonNullElse
+                        (this.creditLimit, 100.00)
+                ));
+        return creditCard;
     }
 }

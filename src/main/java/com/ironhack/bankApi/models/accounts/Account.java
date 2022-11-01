@@ -11,7 +11,9 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDate;
 import java.time.ZoneId;
-import java.util.Objects;
+
+import static com.ironhack.bankApi.models.enums.Status.*;
+import static java.math.RoundingMode.*;
 
 @Entity
 @Table(name = "accounts")
@@ -39,14 +41,14 @@ public abstract class Account {
     private LocalDate creationDate;
     @Setter
     private Status status;
-
+    private static final BigDecimal DEFAULT_PENALTY_FEE = new BigDecimal(40.00);
     /**
      * Default Penalty fee 40.00, set creation date at this time. Default Status Active
      */
     public Account() {
-        setPenaltyFee(BigDecimal.valueOf(40.00));
+        setPenaltyFee(DEFAULT_PENALTY_FEE);
         setCreationDate(LocalDate.now(ZoneId.of("Europe/Paris")));
-        setStatus(Status.ACTIVE);
+        setStatus(ACTIVE);
     }
 
     /**
@@ -58,7 +60,7 @@ public abstract class Account {
         setSecondaryOwner(secondaryOwner);
         setPenaltyFee(penaltyFee);
         setCreationDate(LocalDate.now(ZoneId.of("Europe/Paris")));
-        setStatus(Status.ACTIVE);
+        setStatus(ACTIVE);
     }
     /**
      * Set creation date at this time. Default Status Active
@@ -67,7 +69,7 @@ public abstract class Account {
         setSecretKey(secretKey);
         setPenaltyFee(penaltyFee);
         setCreationDate(LocalDate.now(ZoneId.of("Europe/Paris")));
-        setStatus(Status.ACTIVE);
+        setStatus(ACTIVE);
     }
     /**
      * Set creation date at this time. Default Status Active
@@ -77,7 +79,7 @@ public abstract class Account {
         setSecretKey(secretKey);
         setPenaltyFee(penaltyFee);
         setCreationDate(LocalDate.now(ZoneId.of("Europe/Paris")));
-        setStatus(Status.ACTIVE);
+        setStatus(ACTIVE);
     }
     /**
      * Set creation date at this time. Default Status Active
@@ -96,20 +98,24 @@ public abstract class Account {
         this.balance = new Money(balance);
     }
 
+    public void setPenaltyFee(BigDecimal penaltyFee) {
+        this.penaltyFee = penaltyFee.setScale(2, HALF_EVEN);
+    }
+
     /**
      * Decrease amount balance of this account
      * @param decrease amount to Decrease Balance
      */
 
     public void decreaseBalance(BigDecimal decrease){
-        balance.decreaseAmount(decrease.setScale(2, RoundingMode.HALF_EVEN));
+        balance.decreaseAmount(decrease.setScale(2, HALF_EVEN));
     }
     /**
      * Increase amount balance of this account
      * @param increase amount to increase Balance
      */
     public void increaseBalance(BigDecimal increase){
-        balance.increaseAmount(increase.setScale(2,RoundingMode.HALF_EVEN));
+        balance.increaseAmount(increase.setScale(2, HALF_EVEN));
     }
 
 }

@@ -11,14 +11,17 @@ import java.math.BigDecimal;
 @Setter
 public class CheckingAccount extends Account{
     private BigDecimal minimumBalance;
+    private static final BigDecimal DEFAULT_MIN_BALANCE = new BigDecimal(250.00);
+    private static final BigDecimal DEFAULT_MAINTENANCE_FEE = new BigDecimal(12.00);
     private BigDecimal monthlyMaintenanceFee;
 
     /**
      * Default minimum Balance 250.00 and MonthlyMaintenanceFee 12.00
      */
     public CheckingAccount() {
-        setMinimumBalance(BigDecimal.valueOf(250.00));
-        setMonthlyMaintenanceFee(BigDecimal.valueOf(12.00));
+        setMinimumBalance(DEFAULT_MIN_BALANCE);
+        setMonthlyMaintenanceFee(DEFAULT_MAINTENANCE_FEE);
+
     }
 
     /**

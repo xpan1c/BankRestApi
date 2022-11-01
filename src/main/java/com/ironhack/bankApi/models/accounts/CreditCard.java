@@ -19,20 +19,27 @@ public class CreditCard extends Account{
     private BigDecimal interestRate;
     @Setter
     private LocalDate interestDate;
+    private static final BigDecimal DEFAULT_CREDIT_LIMIT = BigDecimal.valueOf(100.00);
+    private static final BigDecimal MIN_CREDIT_LIMIT = BigDecimal.valueOf(100.00);
+    private static final BigDecimal MAX_CREDIT_LIMIT = BigDecimal.valueOf(100000.00);
+    private static final BigDecimal DEFAULT_INTEREST_RATE = BigDecimal.valueOf(0.2);
+    private static final BigDecimal MIN_INTEREST_RATE = BigDecimal.valueOf(0.1);
+    private static final BigDecimal MAX_INTEREST_RATE = BigDecimal.valueOf(0.2);
 
     /**
      * Default CreditLimit 100.00, default InterestRate 0.2, default balance at credit limit and set interest date to the creation date.
      */
     public CreditCard() {
-        setCreditLimit(BigDecimal.valueOf(100.00));
-        setInterestRate(BigDecimal.valueOf(0.2));
-        setBalance(BigDecimal.valueOf(100.00));
-        this.interestDate = super.getCreationDate();
+        setCreditLimit(DEFAULT_CREDIT_LIMIT);
+        setInterestRate(DEFAULT_INTEREST_RATE);
+        setBalance(DEFAULT_CREDIT_LIMIT);
+        setInterestDate(super.getCreationDate());
     }
 
     /**
      * Set interest date to the creation date
      */
+    /*
     public CreditCard(int secretKey, BigDecimal penaltyFee, BigDecimal creditLimit, BigDecimal interestRate) {
         super(secretKey, penaltyFee);
         setCreditLimit(creditLimit);
@@ -42,7 +49,6 @@ public class CreditCard extends Account{
     }
     /**
      * Set interest date to the creation date
-     */
     public CreditCard(int secretKey, AccountHolder primaryOwner, AccountHolder secondaryOwner, BigDecimal penaltyFee, BigDecimal creditLimit, BigDecimal interestRate) {
         super(secretKey, primaryOwner, secondaryOwner, penaltyFee);
         setCreditLimit(creditLimit);
@@ -50,15 +56,18 @@ public class CreditCard extends Account{
         setBalance(creditLimit);
         this.interestDate = super.getCreationDate();
     }
+     */
+
 
     /**
      *
      * @param creditLimit It has to be between 100.00 and 100000
      */
     public void setCreditLimit(BigDecimal creditLimit) {
-        if( creditLimit.compareTo(BigDecimal.valueOf(100.00)) >= 0
-                & creditLimit.compareTo(BigDecimal.valueOf(100000.00)) <= 0) {
-            this.creditLimit = creditLimit;
+        if( creditLimit.compareTo(MIN_CREDIT_LIMIT) >= 0
+                & creditLimit.compareTo(MAX_CREDIT_LIMIT) <= 0) {
+            this.creditLimit = creditLimit.setScale(2,RoundingMode.HALF_EVEN);
+            this.setBalance(creditLimit);
         }else {
             throw new IllegalArgumentException("Credit limit must be between 100 and 100000");
         }
@@ -69,11 +78,11 @@ public class CreditCard extends Account{
      * @param interestRate It has to be between 0.1 - 0.2
      */
     public void setInterestRate(BigDecimal interestRate) {
-        if( interestRate.compareTo(BigDecimal.valueOf(0.1)) >= 0
-                & interestRate.compareTo(BigDecimal.valueOf(0.2)) <= 0) {
+        if( interestRate.compareTo(MIN_INTEREST_RATE) >= 0
+                & interestRate.compareTo(MAX_INTEREST_RATE) <= 0) {
             this.interestRate = interestRate;
         }else {
-            throw new IllegalArgumentException("Interes rate must be between 0.1 and 0.2");
+            throw new IllegalArgumentException("Interest rate must be between 0.1 and 0.2");
         }
 
     }
@@ -104,7 +113,11 @@ public class CreditCard extends Account{
     @Override
     public void decreaseBalance(BigDecimal decrease) {
         super.decreaseBalance(decrease);
-        if(BigDecimal.ZERO.compareTo(super.getBalance().getAmount().subtract(decrease)) >= 0){
+        if(BigDecimal.ZERO.compareTo(super
+                .getBalance()
+                .getAmount()
+                .subtract(decrease)) >= 0
+        ) {
             super.decreaseBalance(getPenaltyFee());
         }
     }
